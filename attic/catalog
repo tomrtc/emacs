@@ -1,0 +1,13 @@
+PUBLIC  "-//VoiceXML Forum//DTD VXML 1.0//EN"   /twdhs3/rto/elisp/xml-catalog/vxml1-0-w3c.dtd
+
+
+DOCTYPE "vxml"                                  /twdhs3/rto/elisp/xml-catalog/vxml1-0-w3c.dtd
+
+DOCTYPE wml                                  /twdhs3/rto/elisp/xml-catalog/wml_1.1.xml
+
+
+
+DOCTYPE html                                  /twdhs3/rto/elisp/xml-catalog/html.dtd
+
+
+SGMLDECL                                        /twdhs3/rto/elisp/xml-catalog/xml.dcl
