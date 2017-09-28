@@ -1,8 +1,7 @@
 # Compiled
 *.elc
 
-# Packaging
-.cask
+
 
 # Backup files
 *~
@@ -10,3 +9,11 @@
 # Undo-tree save-files
 *.~undo-tree
 /elpa/*
+auto-save-list
+elpa
+eshell
+history
+projectile-bookmarks.eld
+projectile.cache
+url
+var

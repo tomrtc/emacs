@@ -1,5 +1,5 @@
-;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
 ;;; init.el --- emacs configuration elisp code using req-package
+;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
 
 ;; Copyright (C) 2017 Remy TOMASETTO
 
@@ -62,7 +62,10 @@
 (setq require-final-newline t)
 (defvar user-mail-address)
 (setq user-full-name "Rémy Tomasetto"
-      user-mail-address "remy.tomasetto@gmail.com")
+      user-mail-address "remy.tomasetto@al-enterprise.com")
+(setq message-alternative-emails (rx "remy.tomasetto@gmail.com"))
+
+
 ;; the toolbar is just a waste of valuable screen estate
 ;; in a tty tool-bar-mode does not properly auto-load, and is
 ;; already disabled anyway
