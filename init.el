@@ -1,3 +1,18 @@
+;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
+;;; init.el --- emacs configuration elisp code using req-package
+
+;; Copyright (C) 2017 Remy TOMASETTO
+
+;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
+;; Keywords:
+;;; Commentary:
+
+;;; Change log:
+
+
+;;; Code:
+;; (toggle-debug-on-error)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
@@ -53,7 +68,9 @@
 ;; already disabled anyway
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-
+(menu-bar-mode -1)
+(when window-system
+  (set-scroll-bar-mode nil))
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
 
@@ -98,12 +115,7 @@
 	 ([remap kill-whole-line] . crux-kill-whole-line)
 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
-;; (global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line)
-;; (global-set-key (kbd "C-c o") #'crux-open-with)
-;; (global-set-key [(shift return)] #'crux-smart-open-line)
-;; (global-set-key (kbd "s-r") #'crux-recentf-find-file)
-;; (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
-;; (global-set-key [remap kill-whole-line] #'crux-kill-whole-line)
+
 
 
 
@@ -163,56 +175,81 @@
 
 
 (use-package elf-mode
-
   :ensure t
   :config
   (elf-setup-default))
+
+(use-package cmake-mode
+    :mode "\\(CMakeLists\\.txt\\|\\.cmake\\)\\'"
+    :defer t
+    :ensure t)
+
+(use-package graphviz-dot-mode
+    :mode "\\.dot\\'"
+    :ensure t
+    :defer t)
+
+(use-package asn1-mode
+    :mode "\\.asn\\'"
+    :ensure t
+    :defer t)
 
 (use-package modern-cpp-font-lock
   :ensure t
   :config
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
-;; Melpa: [M-x] package-install [RET] modern-cpp-font-lock [RET]
-;; In your init Emacs file add:
-;;     (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-;; http://stackoverflow.com/a/145359/516188
+(setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
+			load-path))
+
+(defun chargeur (filename)
+  (let ((file (expand-file-name filename)))
+    (if (file-exists-p file)
+	(load-file file))))
+
+(require 'keyboard)
 
 
 
+;;(require 'asn1-mode)
+(require 'txl-mode)
+(add-to-list 'auto-mode-alist '("\\.\\([tT]xl\\|[gG]rm\\|[gG]rammar\\|[rR]ul\\(es\\)?\\|[mM]od\\(ule\\)?\\)$" . txl-mode))
 
-(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-     Move point to the first non-whitespace character on this line.
-     If point was already at that position, move point to beginning of line."
-  (interactive) ; Use (interactive "^") in Emacs 23 to make shift-select work
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-	 (beginning-of-line))))
-(global-set-key [home] 'smart-beginning-of-line)
+(defun notify-compilation-result(buffer msg)
+  "Notify that the compilation is finished,
+close the *compilation* buffer if the compilation is successful,
+and set the focus back to Emacs frame"
+  (if (string-match "^finished" msg)
+    (progn
+     (delete-windows-on buffer)
+     (tooltip-show "\n Compilation Successful :-) \n "))
+    (tooltip-show "\n Compilation Failed :-( \n "))
+  (setq current-frame (car (car (cdr (current-frame-configuration)))))
+  (select-frame-set-input-focus current-frame)
+  )
 
+(add-to-list 'compilation-finish-functions
+	     'notify-compilation-result)
 
-(global-set-key (kbd "M-/") 'comment-or-uncomment-region)
-(global-set-key (kbd "C-/") 'comment-dwim)
+(global-set-key (kbd "<f3>") 'compile-again)
 
-;; fill comment to width
-(defun fill-comment ()
-  "Fill text to column width for comments"
-  (interactive)
-  (save-excursion
-    (move-end-of-line 1)
-    (while (< (current-column) fill-column) (insert ?#))))
-(global-set-key (kbd "s-!") 'fill-comment)
+(setq compilation-last-buffer nil)
+(defun compile-again (pfx)
+  """Run the same compile as the last time.
 
-;;######################################################################
-(defun set-window-width (n)
-  "Set the selected window's width to N columns wide."
-  (if (> n (window-width))
-      (enlarge-window-horizontally (- n (window-width)))
-    (shrink-window-horizontally (- (window-width) n))))
+If there was no last time, or there is a prefix argument, this acts like
+M-x compile.
+"""
+ (interactive "p")
+ (if (and (eq pfx 1)
+	  compilation-last-buffer)
+     (progn
+       (set-buffer compilation-last-buffer)
+       (revert-buffer t t))
+   (call-interactively 'compile)))
 
-(defun set-80-columns ()
-  "Set the selected window to 80 columns."
-  (interactive)
-  (set-window-width 80))
+(message ".emacs loaded")
+(switch-to-buffer "*Messages*")
+
+(provide 'init)
+;;; init.el ends here
