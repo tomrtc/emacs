@@ -33,9 +33,7 @@
 ;;; Code:
 
 (defconst keyboard-version "2017.1"
-  "keyboard-version-id
-
-Report bugs to: Remy TOMASETTO <Remy.TOMASETTO@sxb.bsf.alcatel.fr>")
+  "Keyboard-version-id.")
 
 ;; Use better names than plop<1> and plop<2> for files with same name
 (require 'uniquify)
@@ -45,13 +43,13 @@ Report bugs to: Remy TOMASETTO <Remy.TOMASETTO@sxb.bsf.alcatel.fr>")
 
 ;; Goto matching parenthesis
 (defun match-paren ()
-  "Will bounce between matching parens just like % in vi"
+  "Will bounce between matching parens just like % in vi."
   (interactive)
   (let ((prev-char (char-to-string (preceding-char)))
 	(next-char (char-to-string (following-char))))
-	(cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
-		  ((string-match "[\]})>]" prev-char) (backward-sexp 1))
-		  (t (error "%s" "Not on a paren, brace, or bracket")))))
+    (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
+	  ((string-match "[\]})>]" prev-char) (backward-sexp 1))
+	  (t (error "%s" "Not on a paren, brace, or bracket")))))
 
 (global-set-key [(control =)] 'match-paren)
 
@@ -85,6 +83,7 @@ Report bugs to: Remy TOMASETTO <Remy.TOMASETTO@sxb.bsf.alcatel.fr>")
 (defun flush-blank-lines (start end)
   (interactive "r")
   (flush-lines "^\\s-*$" start end nil))
+
 (defun collapse-blank-lines (start end)
   (interactive "r")
   (replace-regexp "^\n\\{2,\\}" "\n" nil start end))
@@ -111,7 +110,7 @@ whitespaces."
 
 
 (defun toto ()
-    (interactive)
+  (interactive)
   (buffer-list-to-columns 6))
 
 
@@ -158,24 +157,24 @@ whitespaces."
 
 ;; Use mic-paren in replacement of standard paren.el
 (use-package mic-paren
-    :ensure t
-    :config
-    (paren-activate)                      ; activating
-    (add-hook 'c-mode-common-hook
-              (function (lambda ()
-                (paren-toggle-open-paren-context 1))))
-    ;; In LaTeX-mode we want this
-    (add-hook 'LaTeX-mode-hook
-              (function (lambda ()
-                (paren-toggle-matching-quoted-paren 1)
-                (paren-toggle-matching-paired-delimiter 1)))))
+  :ensure t
+  :config
+  (paren-activate)                      ; activating
+  (add-hook 'c-mode-common-hook
+	    (function (lambda ()
+			(paren-toggle-open-paren-context 1))))
+  ;; In LaTeX-mode we want this
+  (add-hook 'LaTeX-mode-hook
+	    (function (lambda ()
+			(paren-toggle-matching-quoted-paren 1)
+			(paren-toggle-matching-paired-delimiter 1)))))
 
 
 
 (use-package markdown-mode
-    :ensure t
-    :defer t
-    :mode "\\.md\\'")
+  :ensure t
+  :defer t
+  :mode "\\.md\\'")
 
 
 (provide 'keyboard)
