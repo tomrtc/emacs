@@ -1,3 +1,10 @@
+(defun flush-blank-lines (start end)
+  (interactive "r")
+  (flush-lines "^\\s-*$" start end nil))
+(defun collapse-blank-lines (start end)
+  (interactive "r")
+  (replace-regexp "^\n\\{2,\\}" "\n" nil start end))
+
 (defun buffer-list-to-columns (ncolumns)
   "Modify a 1-column stringlist in current buffer into NCOLUMNS aligned columns.
 List of items must begin in buffer column 0, and must not contain
