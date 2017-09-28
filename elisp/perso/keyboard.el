@@ -56,9 +56,6 @@
 ;; ...never switch to overwrite mode, not even accidentally
 (global-set-key [insert] 'undefined)
 
-
-
-
 (global-set-key [f1]  'goto-line)
 (global-set-key [S-f1]  'what-line)
 (global-set-key [M-f1]  'mark-c-function)
