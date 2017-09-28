@@ -65,14 +65,6 @@
 (global-set-key [f5]  'previous-error)
 (global-set-key [f6]  'vc-toggle-read-only)
 
-
-(global-set-key [C-right] 'jde-javadoc-autodoc-at-line)
-(global-set-key [C-left] 'jde-complete-at-point)
-(global-set-key [C-up] 'senator-previous-token)
-(global-set-key [C-down] 'senator-next-token)
-(global-set-key [home] 'beginning-of-line)
-(global-set-key [end] 'end-of-line)
-
 (global-set-key [C-home] 'beginning-of-buffer)
 (global-set-key [C-end] 'end-of-buffer)
 
