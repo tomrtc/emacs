@@ -118,16 +118,9 @@
 	 ([remap kill-whole-line] . crux-kill-whole-line)
 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
-
-
-
-
-
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
-
-
 
 (use-package whitespace
   :init
@@ -159,6 +152,7 @@
   :ensure t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
+
 (use-package which-key
   :ensure t
   :config
@@ -170,6 +164,7 @@
 	 ("C-M-%" . anzu-query-replace-regexp))
   :config
   (global-anzu-mode))
+
 (use-package move-text
   :ensure t
   :bind
@@ -206,6 +201,7 @@
 			load-path))
 
 (defun chargeur (filename)
+  "Def: chargeur : french loading the FILENAME."
   (let ((file (expand-file-name filename)))
     (if (file-exists-p file)
 	(load-file file))))
@@ -238,11 +234,8 @@ and set the focus back to Emacs frame"
 
 (setq compilation-last-buffer nil)
 (defun compile-again (pfx)
-  """Run the same compile as the last time.
-
-If there was no last time, or there is a prefix argument, this acts like
-M-x compile.
-"""
+  "Run the same compile with PFX as the last time.
+If there was no last time, or there is a prefix argument, this acts like compile."
  (interactive "p")
  (if (and (eq pfx 1)
 	  compilation-last-buffer)
