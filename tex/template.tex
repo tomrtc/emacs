@@ -1,0 +1,57 @@
+\documentclass[titlepage,12pt]{article}
+
+\usepackage{fontspec}       % For loading custom fonts
+\usepackage{lipsum}         % Lorem ipsum
+\usepackage{fullpage}       % Smaller margins
+\usepackage{nameref}        % For referencing the current section in the header
+\usepackage{textcomp}       % Copyright symbol
+\usepackage{titling}        % Access author information
+\def\COFFEESTAINGRAYSCALE{} % Grayscale coffee stains
+\usepackage{coffee}         % Coffee stains
+
+\usepackage{fancyhdr} % For fancy headers
+\pagestyle{fancy}
+
+% This allows setting of the header and footer sizes more easily
+\usepackage{geometry}
+\geometry{
+  top=1in,
+  inner=0.5in,
+  outer=0.5in,
+  bottom=2in,
+  headheight=3ex,
+  headsep=2ex,
+}
+
+% Header and footer
+\fancyhf{}                                   % Clear header and footer
+\rhead{\leftmark}                            % Display section name in header
+\rfoot{\thepage\\\textcopyright \theauthor}  % Display page number and copyright in footer
+\fancyhfoffset[LE]{6mm}                      % Better header width
+
+\setmainfont[Path=./]{vtRemingtonPortable} % Set global font
+
+% Customise these
+\title{Old Technical Manual}
+\author{HAL Ltd.}
+\date{1971-03-03}
+
+\begin{document}
+\maketitle
+\cofeAm{0.7}{0.75}{2}{-200}{200}
+\tableofcontents
+\pagebreak
+
+\section{Introduction}
+\cofeBm{0.7}{1}{0}{0}{0}
+\lipsum
+
+\subsection{Test}
+\lipsum
+
+\section{Instructions}
+\lipsum
+
+\section{Calling conventions}
+\lipsum
+\end{document}

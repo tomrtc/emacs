@@ -1,0 +1,40 @@
+pip install gitifyhg
+
+gitifyhg is a git remote. Once installed, you can clone any Mercurial repo using
+
+git clone gitifyhg::<any mercurial url>
+
+Now run git branch -r to see the list of Mercurial branches. If it was a named branch upstream, it will be named branches/<branchname> in git. Bookmarks are referred to directly by their name. For now, we recommend only interacting with named branches.
+
+master automatically tracks the default branch. You can check out any named mercurial branch using
+
+git checkout --track origin/branches/<branchname>
+
+As a standard git practice, we recommend creating your own local branch to work on. Then change to the tracked branch and git pull to get upstream changes. Rebase your working branch onto that branch before pushing
+
+git checkout -b working_<branchname>
+# hack add commit ad nauseam
+git checkout branches/<branchname>
+git pull
+git checkout working_<branchname>
+git rebase branches/<branchname>
+git checkout branches/<branchname>
+git merge working_<branchname>
+git push
+
+You can create new named upstream branches by giving them the branches/ prefix
+
+git checkout -b "branches/my_new_branch"
+# hack add commit
+git push --set-upstream origin branches/my_new_branch
+
+And that's really it, you just use standard git commands and the remote takes care of the details. Just be cautious of incoming anonymous branches, don't do any octopus merges and you should be set.
+Caveats
+
+Mercurial allows spaces in branch, bookmark, and tag names, while git does not. To keep git from choking if upstream has spaces in names, gitifyhg will replace them with three underscores and has the sense to convert between the two formats when pushing and pulling.
+
+Mercurial does not support lightweight tags. Tags in mercurial that get pushed to the remote repo require an extra commit in he mercurial history. If you push a lightweight tag, then gitifyhg will set a default user, date, and commit message for you. However, if you create a heavyweight tag using git tag <tagname> --message="commit message", gitifyhg will use the commit information associated with that tag when you run git push --tags.
+
+By default, gitifyhg ignores branches that have been closed in Mercurial. This supplies a substantial cloning speedup on large repos, and alleviates a few issues we are still working out in conflicting branch names. If you would like to clone a repository including closed branches, first set the GITIFYHG_ALLOW_CLOSED_BRANCHES environment variable.
+
+If you have any trouble, please let us know via the issue tracker, preferably with pull requests containing test cases.
