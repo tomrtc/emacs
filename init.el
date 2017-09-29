@@ -42,6 +42,15 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq default-frame-alist
+      '((fullscreen . maximized)
+        ;; (top . 0)
+        ;; (left . 0)
+        ;; (width . 130)
+        ;; (height . 68)
+        (auto-raise . t)
+        (cursor-color . "red")
+        ))
 
 
 (set-language-environment "UTF-8")
