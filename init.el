@@ -43,11 +43,11 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq default-frame-alist
-      '((fullscreen . maximized)
-        ;; (top . 0)
-        ;; (left . 0)
-        ;; (width . 130)
-        ;; (height . 68)
+      '((font . "Knack Nerd Font" )
+         (top . 8)
+         (left . 6)
+         (width . 100)
+         (height . 38)
         (auto-raise . t)
         (cursor-color . "red")
         ))
@@ -258,3 +258,17 @@ If there was no last time, or there is a prefix argument, this acts like compile
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (markdown-mode mic-paren modern-cpp-font-lock asn1-mode graphviz-dot-mode cmake-mode elf-mode move-text anzu which-key flycheck crux magit req-package use-package auto-compile))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
