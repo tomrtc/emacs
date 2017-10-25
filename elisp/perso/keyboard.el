@@ -35,10 +35,11 @@
 (defconst keyboard-version "2017.1"
   "Keyboard-version-id.")
 
-;; Use better names than plop<1> and plop<2> for files with same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward
-      uniquify-strip-common-suffix nil)
+
+
+;; unbound suspend-frame
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
 
 
 ;; Goto matching parenthesis
@@ -142,29 +143,64 @@ whitespaces."
   (interactive)
   (set-window-width 80))
 
-;;; Parenthesis
+;;; from https://github.com/thomasf/dotfiles-thomasf-emacs
+(defun toggle-fold ()
+  "Toggle fold all lines larger than indentation on current line"
+  (interactive)
+  (let ((col 1))
+    (save-excursion
+      (back-to-indentation)
+      (setq col (+ 1 (current-column)))
+      (set-selective-display
+       (if selective-display nil (or col 1)))))
+  (make-repeatable 'toggle-fold))
 
-;; Use mic-paren in replacement of standard paren.el
-(use-package mic-paren
-  :ensure t
-  :config
-  (paren-activate)                      ; activating
-  (add-hook 'c-mode-common-hook
-	    (function (lambda ()
-			(paren-toggle-open-paren-context 1))))
-  ;; In LaTeX-mode we want this
-  (add-hook 'LaTeX-mode-hook
-	    (function (lambda ()
-			(paren-toggle-matching-quoted-paren 1)
-			(paren-toggle-matching-paired-delimiter 1)))))
+;;; from http://endlessparentheses.com/fill-and-unfill-paragraphs-with-a-single-key.html
+(defun endless/fill-or-unfill ()
+  "Like `fill-paragraph', but unfill if used twice."
+  (interactive)
+  (let ((fill-column
+         (if (eq last-command 'endless/fill-or-unfill)
+             (progn (setq this-command nil)
+                    (point-max))
+           fill-column)))
+    (call-interactively #'fill-paragraph)))
 
 
 
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :mode "\\.md\\'")
+;; Let me write these characters, plx
+(global-set-key (kbd "M-2") "@")
+(global-set-key (kbd "M-4") "$")
+(global-set-key (kbd "M-8") "[")
+(global-set-key (kbd "M-9") "]")
+(global-set-key (kbd "M-(") "{")
+(global-set-key (kbd "M-)") "}")
+(global-set-key (kbd "M-7") "|")
+(global-set-key (kbd "M-/") "\\")
+(global-set-key (kbd "C-x M-l") "λ")
+(global-set-key (kbd "M-n") 'next-error) ; also works for rgrep results
+(global-set-key (kbd "M-p") 'previous-error)
 
+;; Home/End keyboard shortcuts
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+   Move point to the first non-whitespace character on this line.
+   If point was already at that position, move point to beginning of line."
+  (interactive "^") ; Use (interactive "^") in Emacs 23 to make shift-select work
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+
+
+(global-set-key [home] 'smart-beginning-of-line)
+(global-set-key (kbd "C-a") 'smart-beginning-of-line)
+
+
+(define-key global-map [end] 'end-of-line)
+(global-set-key (kbd "C-e") 'end-of-line)
+
+(global-set-key (kbd "C-:") 'dabbrev-expand)
 
 (provide 'keyboard)
 ;;; KEYBOARD.EL ends here

@@ -85,9 +85,24 @@
   (set-scroll-bar-mode nil))
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
+(set-fringe-mode 0)
+(hl-line-mode -1)
 
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
+
+
+(setq mouse-yank-at-point t		; Yank where the point currently is
+      x-select-enable-primary t         ; Yank use the primary selection if available
+      x-select-enable-clipboard t       ; Yank use the clipboard if available
+      save-interprogram-paste-before-kill t ; Put clipboard/selection into kill ring
+      x-selection-timeout 10                ; Workaround. See https://debbugs.gnu.org/16737
+      echo-keystrokes 0.1               ; Show keystrokes early
+      mouse-1-click-follows-link nil) ; Don't follow links with left click
+
+
+
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
@@ -215,6 +230,7 @@
     (if (file-exists-p file)
 	(load-file file))))
 
+(require 'defaults)
 (require 'keyboard)
 
 
