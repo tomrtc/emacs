@@ -59,6 +59,8 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+(when (display-graphic-p)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
@@ -75,15 +77,13 @@
 (setq message-alternative-emails (rx "remy.tomasetto@gmail.com"))
 
 
-;; the toolbar is just a waste of valuable screen estate
-;; in a tty tool-bar-mode does not properly auto-load, and is
-;; already disabled anyway
+
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (menu-bar-mode -1)
 (when window-system
   (set-scroll-bar-mode nil))
-;; the blinking cursor is nothing, but an annoyance
+
 (blink-cursor-mode -1)
 (set-fringe-mode 0)
 (hl-line-mode -1)
@@ -232,7 +232,7 @@
 
 (require 'defaults)
 (require 'keyboard)
-
+(require  'cpp-auto-include)
 
 
 ;;(require 'asn1-mode)
