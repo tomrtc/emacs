@@ -104,8 +104,58 @@ whitespaces."
   (buffer-list-to-columns 6))
 
 
+(defun insert-current-time (prefix)
+  "Insert the current date. With prefix-argument, use 24h format.
+   With two prefix arguments, write out an ISO 8601 date and
+   time."
+  (interactive "P")
+  (let ((format (cond
+                 ((not prefix) "%FT%T%z")
+                 ((equal prefix '(4)) "%T")
+                 ((equal prefix '(16)) "%I:%M:%S %p"))))
+    (insert (format-time-string format))))
 
+;; Insert generated UUIDs
+(random t)
 
+(defun random-ms-uuid ()
+  (format "%04x%04x-%04x-4%s-%s-%06x%06x"
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (substring (format "%04x" (random (expt 16 4))) 1)
+          (concat
+           (let ((n (random 4)))
+             (substring "89ab" n (1+ n)))
+           (substring (format "%04x" (random (expt 16 4))) 1))
+          (random (expt 16 6))
+          (random (expt 16 6))))
+
+(defun random-xcode-uuid ()
+  (format "%04X%04X%04X%04X%04X%04X"
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (random (expt 16 4))
+          (random (expt 16 4))))
+
+(defun insert-uuid (prefix)
+  "Insert a random universally unique identifier (UUID). A UUID
+is a 128-bit (16 byte) number formatted in a certain way.
+Example of a UUID: 1df63142-a513-X850-Y1a3-535fc3520c3d
+Where X is 4 and Y is one of {8,9,a,b}.
+With a prefix argument, insert a random UUID suitable for use in
+XCode projects. An XCode UUID is a 96-bit (12 byte) number
+formatted as a hex string.
+Example of an XCode UUID: a513b85041a3535fc3520c3d."
+  (interactive "P")
+  (insert
+   (cond
+    ((not prefix) (random-ms-uuid))
+    ((equal prefix '(4)) (random-xcode-uuid)))))
+
+;;(bind-key "C-c u" 'insert-uuid)
 
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
