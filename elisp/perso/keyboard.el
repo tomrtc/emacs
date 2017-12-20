@@ -70,6 +70,19 @@
 (global-set-key [C-end] 'end-of-buffer)
 
 
+(defun jart-unfill-paragraph ()
+  "Take a multi-line paragraph and make it into a single line.
+Thanks: Stefan Monnier <foo@acm.org>"
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun jart-face-at-point ()
+  "Tell me who is responsible for ugly color under cursor."
+  (interactive)
+  (message "%S: %s" (face-at-point)
+	   (face-documentation (face-at-point))))
+
 (defun flush-blank-lines (start end)
   (interactive "r")
   (flush-lines "^\\s-*$" start end nil))
@@ -156,6 +169,67 @@ Example of an XCode UUID: a513b85041a3535fc3520c3d."
     ((equal prefix '(4)) (random-xcode-uuid)))))
 
 ;;(bind-key "C-c u" 'insert-uuid)
+(defun m/query-replace-using-region (start end)
+  "Like `query-replace' but uses region as the search string"
+  (interactive "r")
+  (let ((use-region-p nil)
+        (from (buffer-substring-no-properties start end)))
+    (deactivate-mark)
+    (goto-char start)
+    (perform-replace from
+                     (read-from-minibuffer (format "Replace %s with: "
+                                                   from))
+t nil nil)))
+
+(defun convert-size-to-bytes (s)
+  "Given a size with suffix K or M, returns the size in bytes"
+  (let* ((slen (length s))
+         (all-but-last (substring s 0 (- slen 1 )))
+         (last-char (downcase (substring s (- slen 1) slen))))
+    (cond
+     ((string= last-char "k") (* 1024 (string-to-number all-but-last)))
+((string= last-char "m") (* 1048576 (string-to-number all-but-last))))))
+
+(defun strip-text-properties(txt)
+  "Does what it sayd. http://stackoverflow.com/a/8377127/209050"
+  (set-text-properties 0 (length txt) nil txt)
+  txt)
+
+(defun m/-extract-field-from-region (start end N delimiter)
+  "Extract field `N' delimited by `delimiter' from region
+specified by `start' and `end'"
+  (goto-char start)
+  (beginning-of-line)
+  (let ((current-point (point))
+        (result))
+    (while (< current-point end)
+      (push (nth N
+                 (split-string (strip-text-properties (thing-at-point 'line))
+                               delimiter))
+            result)
+      (forward-line)
+      (setq current-point (point)))
+    (reverse result)))
+
+(defun m/mapcfield (fn N &optional delimiter)
+  "Like `mapc' but evaluates `fn' for each field in the region defined by
+`N' (field number) and `delimiter' (using `m/-extract-field-from-region')."
+  (setq delimiter (or delimiter " "))
+  (mapc fn (m/-extract-field-from-region (region-beginning)
+                                          (region-end)
+                                          N
+                                          delimiter)))
+
+(defun m/extract-field-from-region (start end)
+  "Like cut -dD -fN where D and N are read from the user"
+  (interactive "r")
+  (let ((res (m/-extract-field-from-region start
+                                            end
+                                            (string-to-number (read-from-minibuffer "Field: "
+                                                                                    "0"))
+                                            (read-from-minibuffer "Field [default=\" \"]: "
+                                                                  " "))))
+    (message "%s" (mapconcat 'identity res "\n"))))
 
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
@@ -251,6 +325,45 @@ Example of an XCode UUID: a513b85041a3535fc3520c3d."
 (global-set-key (kbd "C-e") 'end-of-line)
 
 (global-set-key (kbd "C-:") 'dabbrev-expand)
+
+
+(define-generic-mode 'ragel-mode
+  '(?#) ;; Comments
+  '(
+    ;; Keywords
+    "machine" "action" "access" "context" "include" "import" "export"
+    "prepush" "postpop" "when" "inwhen" "outwhen" "err" "lerr" "eof" "from"
+    "to" "alphtype" "getkey" "write"
+    ;; Rules
+    "any" "ascii" "extend" "alpha" "digit" "alnum" "lower" "upper"
+    "xdigit" "cntrl" "graph" "print" "punct" "space" "zlen" "empty"
+    ;; Inline code matching
+    "fpc" "fc" "fcurs" "fbuf" "fblen" "ftargs" "fstack"
+    "fhold" "fgoto" "fcall" "fret" "fentry" "fnext" "fexec" "fbreak"
+    )
+  '(
+    ;; Literals
+    ;;("\\([^\\)]*\\)" . font-lock-constant-face)
+    ;;("\\[[[^\\]]*\\]" . font-lock-constant-face)
+    ("\(\"\\?'\"\'|\\?\"'\|'[^']*'\|\"[^\"]*\"\)" . font-lock-constant-face)
+    ;; Numbers
+    ("\\<[0-9][0-9]*\\>" . font-lock-constant-face)
+    ("\\<0x[0-9a-fA-F][0-9a-fA-F]*\\>" . font-lock-constant-face)
+    ;; Operators
+    ("[>$%@]" . font-lock-constant-face)
+    ("<>\|<" . font-lock-constant-face)
+    ;;("[>\<$%@][!\^/*~]" . font-lock-constant-face)
+    ;;("[>$%]?" . font-lock-constant-face)
+    ;;("<>[!\^/*~]" . font-lock-constant-face)
+    ("=>" . font-lock-constant-face)
+    ("->" . font-lock-constant-face)
+    (":>" . font-lock-constant-face)
+    (":>>" . font-lock-constant-face)
+    ("<:" . font-lock-constant-face)
+    )
+  nil ;'(".rl\\'")
+  nil
+  "Generic mode for mmm-mode editing .rl files.")
 
 (provide 'keyboard)
 ;;; KEYBOARD.EL ends here
