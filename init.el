@@ -195,6 +195,9 @@
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
+(use-package powerline
+    :ensure t
+    :defer t)
 
 (use-package elf-mode
   :ensure t
