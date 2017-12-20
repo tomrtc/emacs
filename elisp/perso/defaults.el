@@ -102,6 +102,8 @@
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
+(use-package powerline
+  :ensure t)
 
 (setq ns-use-srgb-colorspace nil) ;; DON'T MESS UP THE COLORS
 (defun powerline-uber-theme ()
