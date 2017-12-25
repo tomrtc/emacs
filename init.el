@@ -76,6 +76,12 @@
       user-mail-address "remy.tomasetto@al-enterprise.com")
 (setq message-alternative-emails (rx "remy.tomasetto@gmail.com"))
 
+;; Always load newest byte code
+(setq load-prefer-newer t)
+
+;; reduce the frequency of garbage collection by making it happen on
+;; each 50MB of allocated data (the default is on every 0.76MB)
+(setq gc-cons-threshold 50000000)
 
 
 (when (fboundp 'tool-bar-mode)
@@ -86,8 +92,9 @@
 
 (blink-cursor-mode -1)
 (set-fringe-mode 0)
-(hl-line-mode -1)
-
+;(hl-line-mode -1)
+;; highlight the current line
+(global-hl-line-mode +1)
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
 
@@ -100,8 +107,15 @@
       echo-keystrokes 0.1               ; Show keystrokes early
       mouse-1-click-follows-link nil) ; Don't follow links with left click
 
+(use-package abbrev
+  :config
+  (setq save-abbrevs 'silently)
+(setq-default abbrev-mode t))
 
-
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1))
 
 (use-package magit
   :ensure t
