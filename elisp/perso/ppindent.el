@@ -1,4 +1,4 @@
-;;; ppindent.el --- Indents C preprocessor directives
+s;;; ppindent.el --- Indents C preprocessor directives
 
 ;; Copyright (C) 2007 Free Software Foundation, Inc.
 
@@ -46,9 +46,9 @@
 ;;        #endif
 ;;        #endif
 ;;        #endif
-          
+
 ;; After "M-x ppindent-c" becomes:
-          
+
 ;;        #ifdef WOO
 ;;        ....
 ;;        #  if defined(X) && !defined(Y)
@@ -135,4 +135,3 @@ Used in C pre-processor indent functions ppindent-c and ppindent-h"
   "Indent C pre-processor statements, keeping first level #ifdef unindented"
   (interactive)
   (ppindent-buffer (- ppindent-increment)))
-
