@@ -227,6 +227,23 @@
     (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
     :ensure t)
 
+
+;; (use-package cpputils-cmake
+;;   :defer t
+;;   :config (add-hook 'c-mode-common-hook
+;; 		    (lambda ()
+;; 		      (if (derived-mode-p 'c-mode 'c++-mode)
+;; 			  (cppcm-reload-all)
+;; 			)))
+;;   :ensure t)
+
+(use-package cmake-ide
+    :defer t
+    :config
+    (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
+    :ensure t)
+
+
 (use-package graphviz-dot-mode
     :mode "\\.dot\\'"
     :ensure t
@@ -287,3 +304,17 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
