@@ -245,29 +245,27 @@
     :ensure t
     :defer t)
 
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :mode "\\.md\\'")
 
-(defun pabbrevx-suggestions-goto-buffer (suggestions)
-  (let* ((candidates (mapcar 'car suggestions))
-         (bounds (pabbrev-bounds-of-thing-at-point))
-         (selection (popup-menu* candidates
-                                 :point (car bounds)
-                                 :scroll-bar t)))
-    (when selection
-      ;; modified version of pabbrev-suggestions-insert
-      (let ((point))
-        (save-excursion
-          (progn
-            (delete-region (car bounds) (cdr bounds))
-            (insert selection)
-            (setq point (point))))
-        (if point
-            (goto-char point))
-        ;; need to nil this so pabbrev-expand-maybe-full won't try
-        ;; pabbrev expansion if user hits another TAB after ac aborts
-        (setq pabbrev-last-expansion-suggestions nil)
-        ))))
+;; Use mic-paren in replacement of standard paren.el
+(use-package mic-paren
+  :ensure t
+  :config
+  (paren-activate)                      ; activating
+  (add-hook 'c-mode-common-hook
+	    (function (lambda ()
+			(paren-toggle-open-paren-context 1))))
+  ;; In LaTeX-mode we want this
+  (add-hook 'LaTeX-mode-hook
+	    (function (lambda ()
+			(paren-toggle-matching-quoted-paren 1)
+			(paren-toggle-matching-paired-delimiter 1)))))
 
-(fset 'pabbrev-suggestions-goto-buffer 'pabbrevx-suggestions-goto-buffer)
+
+
 
 
 
@@ -277,50 +275,12 @@
 (setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
 			load-path))
 
-(defun chargeur (filename)
-  "Def: chargeur : french loading the FILENAME."
-  (let ((file (expand-file-name filename)))
-    (if (file-exists-p file)
-	(load-file file))))
+
 
 (require 'defaults)
 (require 'keyboard)
-(require  'cpp-auto-include)
 
 
-;;(require 'asn1-mode)
-(require 'txl-mode)
-(add-to-list 'auto-mode-alist '("\\.\\([tT]xl\\|[gG]rm\\|[gG]rammar\\|[rR]ul\\(es\\)?\\|[mM]od\\(ule\\)?\\)$" . txl-mode))
-
-(defun notify-compilation-result(buffer msg)
-  "Notify that the compilation is finished,
-close the *compilation* buffer if the compilation is successful,
-and set the focus back to Emacs frame"
-  (if (string-match "^finished" msg)
-    (progn
-     (delete-windows-on buffer)
-     (tooltip-show "\n Compilation Successful :-) \n "))
-    (tooltip-show "\n Compilation Failed :-( \n "))
-  (setq current-frame (car (car (cdr (current-frame-configuration)))))
-  (select-frame-set-input-focus current-frame)
-  )
-
-(add-to-list 'compilation-finish-functions
-	     'notify-compilation-result)
-
-(global-set-key (kbd "<f3>") 'compile-again)
-
-(setq compilation-last-buffer nil)
-(defun compile-again (pfx)
-  "Run the same compile with PFX as the last time.
-If there was no last time, or there is a prefix argument, this acts like compile."
- (interactive "p")
- (if (and (eq pfx 1)
-	  compilation-last-buffer)
-     (progn
-       (set-buffer compilation-last-buffer)
-       (revert-buffer t t))
-   (call-interactively 'compile)))
 
 (message ".emacs loaded")
 (switch-to-buffer "*Messages*")

@@ -51,32 +51,29 @@
  enable-recursive-minibuffers nil)
 
 
+(defun pabbrevx-suggestions-goto-buffer (suggestions)
+  "Essay abbrev with popup menu on SUGGESTIONS."
+  (let* ((candidates (mapcar 'car suggestions))
+         (bounds (pabbrev-bounds-of-thing-at-point))
+         (selection (popup-menu* candidates
+                                 :point (car bounds)
+                                 :scroll-bar t)))
+    (when selection
+      ;; modified version of pabbrev-suggestions-insert
+      (let ((point))
+        (save-excursion
+          (progn
+            (delete-region (car bounds) (cdr bounds))
+            (insert selection)
+            (setq point (point))))
+        (if point
+            (goto-char point))
+        ;; need to nil this so pabbrev-expand-maybe-full won't try
+        ;; pabbrev expansion if user hits another TAB after ac aborts
+        (setq pabbrev-last-expansion-suggestions nil)
+        ))))
 
-
-
-;;; Parenthesis
-
-;; Use mic-paren in replacement of standard paren.el
-(use-package mic-paren
-  :ensure t
-  :config
-  (paren-activate)                      ; activating
-  (add-hook 'c-mode-common-hook
-	    (function (lambda ()
-			(paren-toggle-open-paren-context 1))))
-  ;; In LaTeX-mode we want this
-  (add-hook 'LaTeX-mode-hook
-	    (function (lambda ()
-			(paren-toggle-matching-quoted-paren 1)
-			(paren-toggle-matching-paired-delimiter 1)))))
-
-
-
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :mode "\\.md\\'")
-
+(fset 'pabbrev-suggestions-goto-buffer 'pabbrevx-suggestions-goto-buffer)
 
 
 ;; `describe-bindings' orders the keymaps by precedence so the
@@ -97,6 +94,7 @@
 
 ;; Function for finding out info about font at cursor
 (defun what-face (pos)
+  "Describe what face is at POS."
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
                   (get-char-property (point) 'face))))
@@ -197,7 +195,13 @@
 (setq powerline-height 24)
 
 (load-theme 'misterioso t)
- (require 'volatile-highlights)
+(require 'volatile-highlights)
 (volatile-highlights-mode t)
+(require  'cpp-auto-include)
+
+;;(require 'asn1-mode)
+(require 'txl-mode)
+(add-to-list 'auto-mode-alist '("\\.\\([tT]xl\\|[gG]rm\\|[gG]rammar\\|[rR]ul\\(es\\)?\\|[mM]od\\(ule\\)?\\)$" . txl-mode))
+
 (provide 'defaults)
-;;; KEYBOARD.EL ends here
+;;; defaults.el ends here
