@@ -221,6 +221,12 @@
     :defer t
     :ensure t)
 
+(use-package cmake-font-lock
+    :defer t
+    :config
+    (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
+    :ensure t)
+
 (use-package graphviz-dot-mode
     :mode "\\.dot\\'"
     :ensure t
@@ -266,15 +272,8 @@
 
 
 
-
-
-
-
-
-
 (setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
 			load-path))
-
 
 
 (require 'defaults)
