@@ -280,23 +280,10 @@
 (require 'keyboard)
 
 
+(setq git-gutter-fr+-side 'right-fringe)
 
 (message ".emacs loaded")
 (switch-to-buffer "*Messages*")
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (markdown-mode mic-paren modern-cpp-font-lock asn1-mode graphviz-dot-mode cmake-mode elf-mode move-text anzu which-key flycheck crux magit req-package use-package auto-compile))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
