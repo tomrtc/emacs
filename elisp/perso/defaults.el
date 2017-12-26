@@ -197,6 +197,7 @@
 (setq powerline-height 24)
 
 (load-theme 'misterioso t)
-
+ (require 'volatile-highlights)
+(volatile-highlights-mode t)
 (provide 'defaults)
 ;;; KEYBOARD.EL ends here
