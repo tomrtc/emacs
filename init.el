@@ -241,7 +241,10 @@
   :config
   (add-hook 'c++-mode-hook #'pabbrev-mode))
 
-(require 'popup)
+(use-package popup
+    :ensure t
+    :defer t)
+
 
 (defun pabbrevx-suggestions-goto-buffer (suggestions)
   (let* ((candidates (mapcar 'car suggestions))
