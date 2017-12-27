@@ -50,7 +50,8 @@
 (global-set-key [(control =)] 'match-paren)
 
 ;; Load rtags and start the cmake-ide-setup process
-(load-library "rtags/rtags.el")
+(require 'rtags)
+
 (setq rtags-autostart-diagnostics t)
 (rtags-diagnostics)
 (setq rtags-completions-enabled t)

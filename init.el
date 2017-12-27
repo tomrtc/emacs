@@ -244,7 +244,7 @@
 		    "-I/usr/include/x86_64-linux-gnu"
 		    "-I/usr/include")))
     (setq cmake-ide-flags-c '("-I/usr/include"))
-)
+    :ensure t)
 
 
 (use-package graphviz-dot-mode
@@ -294,7 +294,8 @@
 
 (setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
 			load-path))
-
+(setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")
+			load-path))
 
 (require 'defaults)
 (require 'keyboard)
