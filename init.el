@@ -52,7 +52,6 @@
         (cursor-color . "red")
         ))
 
-
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -172,17 +171,20 @@
   (setq whitespace-style
 	'(face  empty trailing lines-tail empty )))
 
-(use-package flyspell
-  :config
-  (setq ispell-program-name "aspell" ; use aspell instead of ispell
-	ispell-extra-args '("--sug-mode=ultra"))
-  (add-hook 'text-mode-hook #'flyspell-mode)
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode))
 
+
+;; aspell setup :  @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
 (use-package flyspell
   :config
-  (setq ispell-program-name "aspell" ; use aspell instead of ispell
+  (setq flyspell-issue-message-flag nil)          ; Avoid slowdown on full buffer check.
+  (setq ispell-program-name "aspell"              ; use aspell instead of ispell
 	ispell-extra-args '("--sug-mode=ultra"))
+  (global-set-key (kbd "<f8>") 'ispell-word)
+  (global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
+  (defun flyspell-check-next-highlighted-word ()
+    "Custom function to spell check next highlighted word."
+    (interactive) (flyspell-goto-next-error) (ispell-word))
+  (global-set-key (kbd "M-<f8>") #'flyspell-check-next-highlighted-word)
   (add-hook 'text-mode-hook #'flyspell-mode)
   (add-hook 'prog-mode-hook #'flyspell-prog-mode))
 
@@ -230,8 +232,21 @@
 (use-package cmake-ide
     :defer t
     :config
-    (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
-    :ensure t)
+    (setq cmake-ide-build-pool-dir "~/ws/productions")
+    (setq cmake-ide-build-pool-use-persistent-naming t)
+    (require 'rtags)
+    (cmake-ide-setup)
+    (setq cmake-ide-flags-c++
+	  (append '("-std=c++14""-I/usr/include/c++/6"
+		    "-I/usr/include/x86_64-linux-gnu/c++/6"
+		    "-I/usr/include/c++/6/backward"
+		    "-I/usr/lib/gcc/x86_64-linux-gnu/6/include"
+		    "-I/usr/local/include"
+		    "-I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed"
+		    "-I/usr/include/x86_64-linux-gnu"
+		    "-I/usr/include")))
+    (setq cmake-ide-flags-c '("-I/usr/include"))
+)
 
 
 (use-package graphviz-dot-mode

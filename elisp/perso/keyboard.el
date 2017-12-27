@@ -59,15 +59,35 @@
 
 (global-set-key [f1]  'goto-line)
 (global-set-key [S-f1]  'what-line)
-(global-set-key [M-f1]  'mark-c-function)
+
 (global-set-key [f2]  'delete-other-windows)
-(global-set-key [f3]  'compile)
+
 (global-set-key [f4]  'next-error)
 (global-set-key [f5]  'previous-error)
-(global-set-key [f6]  'vc-toggle-read-only)
-
+(global-set-key [s-f7]  'cmake-ide-run-cmake)
+(global-set-key [f7]  'cmake-ide-compile)
 (global-set-key [C-home] 'beginning-of-buffer)
 (global-set-key [C-end] 'end-of-buffer)
+
+
+(defun open-readme-in-git-root-directory ()
+  (interactive)
+  (let (filename
+        (root-dir (locate-dominating-file (file-name-as-directory (file-name-directory buffer-file-name)) ".git"))
+        )
+    ;; (message "root-dir=%s" root-dir)
+    (and root-dir (file-name-as-directory root-dir))
+    (setq filename (concat root-dir "README.org"))
+    (if (not (file-exists-p filename))
+        (setq filename (concat root-dir "README.md"))
+      )
+    ;; (message "filename=%s" filename)
+    (if (file-exists-p filename)
+        (switch-to-buffer (find-file-noselect filename nil nil))
+      (message "NO README.org or README.md found!"))
+    ))
+(global-set-key (kbd "C-c C-f") 'open-readme-in-git-root-directory)
+
 
 
 (defun jart-unfill-paragraph ()
