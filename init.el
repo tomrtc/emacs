@@ -82,7 +82,7 @@
 ;; reduce the frequency of garbage collection by making it happen on
 ;; each 50MB of allocated data (the default is on every 0.76MB)
 (setq gc-cons-threshold 50000000)
-
+(setq inhibit-startup-message t)
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -91,17 +91,15 @@
   (set-scroll-bar-mode nil))
 
 (blink-cursor-mode -1)
-(set-fringe-mode 0)
-;(hl-line-mode -1)
-;; highlight the current line
-(global-hl-line-mode +1)
+(set-fringe-mode nil)
+
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
 
 
 (setq mouse-yank-at-point t		; Yank where the point currently is
-      x-select-enable-primary t         ; Yank use the primary selection if available
-      x-select-enable-clipboard t       ; Yank use the clipboard if available
+      select-enable-primary t         ; Yank use the primary selection if available
+      select-enable-clipboard t       ; Yank use the clipboard if available
       save-interprogram-paste-before-kill t ; Put clipboard/selection into kill ring
       x-selection-timeout 10                ; Workaround. See https://debbugs.gnu.org/16737
       echo-keystrokes 0.1               ; Show keystrokes early
@@ -115,6 +113,8 @@
 (use-package super-save
   :ensure t
   :config
+  (setq auto-save-default nil)		  ; switch off the built-in auto-save-mode
+  (setq super-save-auto-save-when-idle t) ;;auto-saving buffers when Emacs is idle
   (super-save-mode +1))
 
 (use-package magit
@@ -201,14 +201,13 @@
   :bind (("M-%" . anzu-query-replace)
 	 ("C-M-%" . anzu-query-replace-regexp))
   :config
-  (global-anzu-mode))
+  (global-anzu-mode +1))
 
 (use-package move-text
   :ensure t
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
-
 
 
 (use-package elf-mode
@@ -227,15 +226,6 @@
     (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
     :ensure t)
 
-
-;; (use-package cpputils-cmake
-;;   :defer t
-;;   :config (add-hook 'c-mode-common-hook
-;; 		    (lambda ()
-;; 		      (if (derived-mode-p 'c-mode 'c++-mode)
-;; 			  (cppcm-reload-all)
-;; 			)))
-;;   :ensure t)
 
 (use-package cmake-ide
     :defer t
