@@ -1,13 +1,8 @@
 ;;; KEYBOARD.EL --- map function keys to elisp funs.
 
-;; Copyright (C) 1996 Remy TOMASETTO
+;; Copyright (C) 1996-2017 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
-;; Maintainer: Remy TOMASETTO <Remy.TOMASETTO@sxb.bsf.alcatel.fr>
-;; Created: 15 Nov 1996
-;; Last modification: %G%
-;; Version: %I%
-;; Keywords:
 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -32,7 +27,7 @@
 
 ;;; Code:
 
-(defconst keyboard-version "2017.1"
+(defconst keyboard-version "2017.2"
   "Keyboard-version-id.")
 
 
@@ -53,6 +48,15 @@
 	  (t (error "%s" "Not on a paren, brace, or bracket")))))
 
 (global-set-key [(control =)] 'match-paren)
+
+;; Load rtags and start the cmake-ide-setup process
+(load-library "rtags/rtags.el")
+(setq rtags-autostart-diagnostics t)
+(rtags-diagnostics)
+(setq rtags-completions-enabled t)
+(rtags-enable-standard-keybindings)
+(cmake-ide-setup)
+
 
 ;; ...never switch to overwrite mode, not even accidentally
 (global-set-key [insert] 'undefined)

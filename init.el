@@ -234,8 +234,6 @@
     :config
     (setq cmake-ide-build-pool-dir "~/ws/productions")
     (setq cmake-ide-build-pool-use-persistent-naming t)
-    (require 'rtags)
-    (cmake-ide-setup)
     (setq cmake-ide-flags-c++
 	  (append '("-std=c++14""-I/usr/include/c++/6"
 		    "-I/usr/include/x86_64-linux-gnu/c++/6"
