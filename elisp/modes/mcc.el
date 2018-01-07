@@ -9,8 +9,10 @@
 (add-hook
  'c++-mode-hook
  '(lambda()
-    ;; We could place some regexes into `c-mode-common-hook', but note that their evaluation order
-    ;; matters.
+    (setq c-basic-offset 4)
+    (c-set-offset 'substatement-open 0)
+    (c-set-offset 'innamespace [4])
+ ;; We could place some regexes into `c-mode-common-hook', but note that their evaluation order;; matters.
     (font-lock-add-keywords
      nil '(;; complete some fundamental keywords
            ("\\<\\(void\\|unsigned\\|signed\\|char\\|short\\|bool\\|int\\|long\\|float\\|double\\)\\>" . font-lock-keyword-face)
