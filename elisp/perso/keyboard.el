@@ -49,14 +49,14 @@
 
 (global-set-key [(control =)] 'match-paren)
 
-;; Load rtags and start the cmake-ide-setup process
-(require 'rtags)
+;; ;; Load rtags and start the cmake-ide-setup process
+;; (require 'rtags)
 
-(setq rtags-autostart-diagnostics t)
-(rtags-diagnostics)
-(setq rtags-completions-enabled t)
-(rtags-enable-standard-keybindings)
-(cmake-ide-setup)
+;; (setq rtags-autostart-diagnostics t)
+;; (rtags-diagnostics)
+;; (setq rtags-completions-enabled t)
+;; (rtags-enable-standard-keybindings)
+;; (cmake-ide-setup)
 
 
 ;; ...never switch to overwrite mode, not even accidentally
@@ -65,12 +65,13 @@
 (global-set-key [f1]  'goto-line)
 (global-set-key [S-f1]  'what-line)
 
+(global-set-key [M-f1]  'mark-c-function)
 (global-set-key [f2]  'delete-other-windows)
 
+(global-set-key [f3]  'compile)
 (global-set-key [f4]  'next-error)
 (global-set-key [f5]  'previous-error)
-(global-set-key [s-f7]  'cmake-ide-run-cmake)
-(global-set-key [f7]  'cmake-ide-compile)
+(global-set-key [f6]  'vc-toggle-read-only)
 (global-set-key [C-home] 'beginning-of-buffer)
 (global-set-key [C-end] 'end-of-buffer)
 
