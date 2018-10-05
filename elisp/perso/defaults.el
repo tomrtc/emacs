@@ -1,12 +1,12 @@
 ;;; DEFAULT.EL --- map function keys to elisp funs.
 
-;; Copyright (C) 1996 Remy TOMASETTO
+;; Copyright (C) 2018 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
 ;; Maintainer: Remy TOMASETTO <Remy.TOMASETTO@sxb.bsf.alcatel.fr>
 ;; Created: 15 Nov 1996
-;; Last modification: %G%
-;; Version: %I%
+;; Last modification: Fri 05 Oct 2018 03:15:46 PM CEST
+;; Version: 2018.1
 ;; Keywords:
 
 
@@ -226,6 +226,18 @@
 (add-to-list 'auto-mode-alist '("\\.\\([tT]xl\\|[gG]rm\\|[gG]rammar\\|[rR]ul\\(es\\)?\\|[mM]od\\(ule\\)?\\)$" . txl-mode))
 
 
+
+;; Non-nil means draw block cursor as wide as the glyph under it.
+;; For example, if a block cursor is over a tab, it will be drawn as
+;; wide as that tab on the display.
+(setq x-stretch-cursor t)
+
+
+; Check (on save) whether the file edited contains a shebang, if yes,
+;; make it executable from
+;; http://mbork.pl/2015-01-10_A_few_random_Emacs_tips
+(add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
+(set-face-background 'hl-line "#372E2D")
 
 (provide 'defaults)
 ;;; defaults.el ends here
