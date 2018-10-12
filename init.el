@@ -1,7 +1,7 @@
 ;;; init.el --- emacs configuration elisp code using req-package
 ;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
 
-;; Copyright (C) 2017 Remy TOMASETTO
+;; Copyright (C) 2018 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
 ;; Keywords:
@@ -316,9 +316,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-show-compilation t)
  '(package-selected-packages
    (quote
-    (cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
