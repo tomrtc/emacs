@@ -19,3 +19,4 @@ url
 var
 /bookmarks
 session.*
+transient/

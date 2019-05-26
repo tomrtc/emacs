@@ -1,7 +1,7 @@
 ;;; init.el --- emacs configuration elisp code using req-package
 ;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
 
-;; Copyright (C) 2018 Remy TOMASETTO
+;; Copyright (C) 2019 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
 ;; Keywords:
@@ -110,6 +110,7 @@
 (use-package abbrev
   :config
   (setq save-abbrevs 'silently)
+  (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
 (setq-default abbrev-mode t))
 
 (use-package super-save
@@ -270,6 +271,10 @@
   :config
   (add-hook 'c++-mode-hook #'pabbrev-mode))
 
+(use-package iedit
+    :ensure t
+    :defer t)
+
 (use-package popup
     :ensure t
     :defer t)
@@ -319,7 +324,7 @@
  '(TeX-show-compilation t)
  '(package-selected-packages
    (quote
-    (auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

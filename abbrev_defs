@@ -23,6 +23,7 @@
     ("applica" "APPLICATION" nil 0)
     ("applicat" "APPLICATION" nil 0)
     ("applicati" "APPLICATION" nil 0)
+    ("applicatio" "APPLICATION" nil 0)
     ("as" "ABSTRACT-SYNTAX" nil 0)
     ("asy" "ABSTRACT-SYNTAX" nil 0)
     ("asyn" "ABSTRACT-SYNTAX" nil 0)
@@ -118,6 +119,7 @@
     ("definiti" "DEFINITIONS" nil 0)
     ("definitio" "DEFINITIONS" nil 0)
     ("definition" "DEFINITIONS" nil 0)
+    ("definitions" "DEFINITIONS" nil 0)
     ("dt" "DATE-TIME" nil 0)
     ("dti" "DATE-TIME" nil 0)
     ("dtim" "DATE-TIME" nil 0)
@@ -183,6 +185,7 @@
     ("extensibi" "EXTENSIBILITY" nil 0)
     ("extensibil" "EXTENSIBILITY" nil 0)
     ("extensibili" "EXTENSIBILITY" nil 0)
+    ("extensibilit" "EXTENSIBILITY" nil 0)
     ("exter" "EXTERNAL" nil 0)
     ("extern" "EXTERNAL" nil 0)
     ("externa" "EXTERNAL" nil 0)
@@ -207,10 +210,12 @@
     ("generalize" "GeneralizedTime" nil 0)
     ("generalized" "GeneralizedTime" nil 0)
     ("generalizedt" "GeneralizedTime" nil 0)
+    ("generalizedti" "GeneralizedTime" nil 0)
     ("generals" "GeneralString" nil 0)
     ("generalst" "GeneralString" nil 0)
     ("generalstr" "GeneralString" nil 0)
     ("generalstri" "GeneralString" nil 0)
+    ("generalstrin" "GeneralString" nil 0)
     ("gr" "GraphicString" nil 0)
     ("gra" "GraphicString" nil 0)
     ("grap" "GraphicString" nil 0)
@@ -219,6 +224,7 @@
     ("graphic" "GraphicString" nil 0)
     ("graphics" "GraphicString" nil 0)
     ("graphicst" "GraphicString" nil 0)
+    ("graphicstr" "GraphicString" nil 0)
     ("i" "IMPLIED" nil 0)
     ("ia" "IA5String" nil 0)
     ("ia5" "IA5String" nil 0)
@@ -238,6 +244,7 @@
     ("identif" "IDENTIFIER" nil 0)
     ("identifi" "IDENTIFIER" nil 0)
     ("identifie" "IDENTIFIER" nil 0)
+    ("identifier" "IDENTIFIER" nil 0)
     ("im" "IMPORTS" nil 0)
     ("imp" "IMPLICIT" nil 0)
     ("impl" "IMPLIED" nil 0)
@@ -271,6 +278,7 @@
     ("instructi" "INSTRUCTIONS" nil 0)
     ("instructio" "INSTRUCTIONS" nil 0)
     ("instruction" "INSTRUCTIONS" nil 0)
+    ("instructions" "INSTRUCTIONS" nil 0)
     ("int" "INTERSECTION" nil 0)
     ("inte" "INTEGER" nil 0)
     ("integ" "INTEGER" nil 0)
@@ -283,6 +291,7 @@
     ("intersect" "INTERSECTION" nil 0)
     ("intersecti" "INTERSECTION" nil 0)
     ("intersectio" "INTERSECTION" nil 0)
+    ("intersection" "INTERSECTION" nil 0)
     ("is" "ISO646String" nil 0)
     ("iso" "ISO646String" nil 0)
     ("iso6" "ISO646String" nil 0)
@@ -291,6 +300,7 @@
     ("iso646s" "ISO646String" nil 0)
     ("iso646st" "ISO646String" nil 0)
     ("iso646str" "ISO646String" nil 0)
+    ("iso646stri" "ISO646String" nil 0)
     ("m" "MAX" nil 0)
     ("ma" "MAX" nil 0)
     ("max" "MAX" nil 0)
@@ -319,8 +329,9 @@
     ("numeric" "NumericString" nil 0)
     ("numerics" "NumericString" nil 0)
     ("numericst" "NumericString" nil 0)
+    ("numericstr" "NumericString" nil 0)
     ("o" "OF" nil 0)
-    ("ob" "OBJECT" nil 0)
+    ("ob" "OBJECT" nil 1)
     ("obj" "ObjectDescriptor" nil 0)
     ("obje" "OBJECT" nil 0)
     ("objec" "ObjectDescriptor" nil 0)
@@ -331,6 +342,7 @@
     ("objectdesc" "ObjectDescriptor" nil 0)
     ("objectdescr" "ObjectDescriptor" nil 0)
     ("objectdescri" "ObjectDescriptor" nil 0)
+    ("objectdescrip" "ObjectDescriptor" nil 0)
     ("oc" "OCTET" nil 0)
     ("oct" "OCTET" nil 0)
     ("octe" "OCTET" nil 0)
@@ -345,6 +357,7 @@
     ("oidentif" "OBJECT IDENTIFIER" nil 0)
     ("oidentifi" "OBJECT IDENTIFIER" nil 0)
     ("oidentifie" "OBJECT IDENTIFIER" nil 0)
+    ("oidentifier" "OBJECT IDENTIFIER" nil 0)
     ("oir" "OID-IRI" nil 0)
     ("oiri" "OID-IRI" nil 0)
     ("op" "OPTIONAL" nil 0)
@@ -386,6 +399,7 @@
     ("printable" "PrintableString" nil 0)
     ("printables" "PrintableString" nil 0)
     ("printablest" "PrintableString" nil 0)
+    ("printablestr" "PrintableString" nil 0)
     ("priv" "PRIVATE" nil 0)
     ("priva" "PRIVATE" nil 0)
     ("privat" "PRIVATE" nil 0)
@@ -424,8 +438,8 @@
     ("sy" "SYNTAX" nil 0)
     ("syn" "SYNTAX" nil 0)
     ("synt" "SYNTAX" nil 0)
-    ("synta" "SYNTAX" nil 0)
-    ("syntax" "SYNTAX" nil 0)
+    ("synta" "SYNTAX" nil 1)
+    ("syntax" "SYNTAX" nil 1)
     ("t" "TAGS" nil 0)
     ("t6" "T61String" nil 0)
     ("t61" "T61String" nil 0)
@@ -446,6 +460,7 @@
     ("teletex" "TeletexString" nil 0)
     ("teletexs" "TeletexString" nil 0)
     ("teletexst" "TeletexString" nil 0)
+    ("teletexstr" "TeletexString" nil 0)
     ("ti" "TIME" nil 0)
     ("tid" "TYPE-IDENTIFIER" nil 0)
     ("tide" "TYPE-IDENTIFIER" nil 0)
@@ -455,6 +470,7 @@
     ("tidentif" "TYPE-IDENTIFIER" nil 0)
     ("tidentifi" "TYPE-IDENTIFIER" nil 0)
     ("tidentifie" "TYPE-IDENTIFIER" nil 0)
+    ("tidentifier" "TYPE-IDENTIFIER" nil 0)
     ("tim" "TIME" nil 0)
     ("time" "TIME" nil 0)
     ("tod" "TIME-OF-DAY" nil 0)
@@ -482,6 +498,7 @@
     ("universalstr" "UniversalString" nil 0)
     ("universalstri" "UniversalString" nil 0)
     ("universalstrin" "UniversalString" nil 0)
+    ("universalstring" "UniversalString" nil 0)
     ("ut" "UTCTime" nil 0)
     ("utc" "UTCTime" nil 0)
     ("utct" "UTCTime" nil 0)
@@ -505,6 +522,7 @@
     ("videote" "VideotexString" nil 0)
     ("videotex" "VideotexString" nil 0)
     ("videotexs" "VideotexString" nil 0)
+    ("videotexst" "VideotexString" nil 0)
     ("vis" "VisibleString" nil 0)
     ("visi" "VisibleString" nil 0)
     ("visib" "VisibleString" nil 0)
@@ -512,6 +530,7 @@
     ("visible" "VisibleString" nil 0)
     ("visibles" "VisibleString" nil 0)
     ("visiblest" "VisibleString" nil 0)
+    ("visiblestr" "VisibleString" nil 0)
     ("w" "WITH" nil 0)
     ("wi" "WITH" nil 0)
     ("wit" "WITH" nil 0)
@@ -562,6 +581,12 @@
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
 
+(define-abbrev-table 'epa-info-mode-abbrev-table '())
+
+(define-abbrev-table 'epa-key-list-mode-abbrev-table '())
+
+(define-abbrev-table 'epa-key-mode-abbrev-table '())
+
 (define-abbrev-table 'flycheck-error-list-mode-abbrev-table '())
 
 (define-abbrev-table 'fundamental-mode-abbrev-table '())
@@ -572,7 +597,11 @@
 
 (define-abbrev-table 'git-commit-elisp-text-mode-abbrev-table '())
 
-(define-abbrev-table 'global-abbrev-table '())
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("mb" "remy tomasetto" nil 1)
+    ("mbm" "remy.tomasetto@al-enterprise.com" nil 1)
+   ))
 
 (define-abbrev-table 'help-mode-abbrev-table '())
 
@@ -629,6 +658,8 @@
 (define-abbrev-table 'magit-stashes-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-status-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-submodule-list-mode-abbrev-table '())
 
 (define-abbrev-table 'makefile-automake-mode-abbrev-table '())
 
@@ -689,6 +720,8 @@
 (define-abbrev-table 'shell-mode-abbrev-table '())
 
 (define-abbrev-table 'special-mode-abbrev-table '())
+
+(define-abbrev-table 'speedbar-mode-abbrev-table '())
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
 
