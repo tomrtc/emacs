@@ -9,6 +9,15 @@
 
 ;;; Change log:
 
+;; D:\>choco install hunspell.portable
+;; mkdir C:\Hunspell\
+;; cp ~/dicts/* Hunspell/
+;; MSYS /c/Hunspell
+;; $ ls
+;; en_AU.aff  en_CA.aff  en_GB.aff  en_US.aff  en_ZA.aff  fr.aff  history.dot     hyph_en_US.dic
+;; en_AU.dic  en_CA.dic  en_GB.dic  en_US.dic  en_ZA.dic  fr.dic
+;; hyph_en_GB.dic  hyph_fr.dic
+
 
 ;;; Code:
 ;; (toggle-debug-on-error)
