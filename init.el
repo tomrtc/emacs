@@ -176,23 +176,54 @@
 	'(face  empty trailing lines-tail empty )))
 
 
-
-;; aspell setup :  @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
+(if (string-equal system-type  "gnu/linux")
+    ;; aspell setup :  @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
+    (use-package flyspell
+      :config
+      (setq flyspell-issue-message-flag nil)          ; Avoid slowdown on full buffer check.
+      (setq ispell-program-name "aspell"              ; use aspell instead of ispell
+	    ispell-extra-args '("--sug-mode=ultra"))
+      (global-set-key (kbd "<f8>") 'ispell-word)
+      (global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
+      (defun flyspell-check-next-highlighted-word ()
+	"Custom function to spell check next highlighted word."
+	(interactive) (flyspell-goto-next-error) (ispell-word))
+      (global-set-key (kbd "M-<f8>") #'flyspell-check-next-highlighted-word)
+      (add-hook 'text-mode-hook #'flyspell-mode)
+      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+;; else windows
 (use-package flyspell
-  :config
-  (setq flyspell-issue-message-flag nil)          ; Avoid slowdown on full buffer check.
-  (setq ispell-program-name "aspell"              ; use aspell instead of ispell
-	ispell-extra-args '("--sug-mode=ultra"))
-  (global-set-key (kbd "<f8>") 'ispell-word)
-  (global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
-  (defun flyspell-check-next-highlighted-word ()
-    "Custom function to spell check next highlighted word."
-    (interactive) (flyspell-goto-next-error) (ispell-word))
-  (global-set-key (kbd "M-<f8>") #'flyspell-check-next-highlighted-word)
-  (add-hook 'text-mode-hook #'flyspell-mode)
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+  :defer t
+  :bind
+  (("<f8>" . ispell-word)
+   ("C-<f8>" . flyspell-check-previous-highlighted-word)
+   ("M-<f8>" . flyspell-check-next-highlighted-word))
+  :init
+  (setenv "DICTIONARY" "en_US")
+  (setq ispell-program-name "c:\\ProgramData\\chocolatey\\bin\\hunspell.exe"
 
-(use-package flycheck
+	;; Save dictionary without asking
+	ispell-silently-savep t
+	;; Do not issue warnings for all wrong words
+	flyspell-issue-message-flag nil)
+
+  (defun flyspell-check-next-highlighted-word ()
+    "Custom function to spell check next highlighted word"
+    (interactive)
+    (flyspell-goto-next-error)
+    (ispell-word)
+    )
+
+  :config
+  (ispell-change-dictionary "en_US" t)
+
+  )) ; use-package flyspell
+
+
+
+
+
+  (use-package flycheck
   :ensure t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
@@ -302,14 +333,22 @@
 
 (setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
 			load-path))
-(setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")
-			load-path))
+
+(if (string-equal system-type  "gnu/linux")
+    (setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")			load-path)))
 
 (require 'defaults)
 (require 'keyboard)
 
 
 (setq git-gutter-fr+-side 'right-fringe)
+
+
+
+;; Remember from session to session all the commands introduced
+;; in the minibuffer, files opened, etc.
+(setq savehist-file (expand-file-name "history.dot" "~/dicts"))
+(savehist-mode 1)
 
 (message ".emacs loaded")
 (switch-to-buffer "*Messages*")
