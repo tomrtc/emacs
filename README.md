@@ -10,7 +10,8 @@ cp -r fonts ~/.fonts
 
 cp gdbinit ../.gdbinit
 
-
+mkdir dicts
+touch /home/remy/dicts/history.dot
 
 
 # Using apt on Debian ≥10 and derivatives #
