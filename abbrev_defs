@@ -543,11 +543,17 @@
     ("wsyntax" "WITH SYNTAX" nil 0)
    ))
 
-(define-abbrev-table 'awk-mode-abbrev-table '())
+(define-abbrev-table 'awk-mode-abbrev-table
+  '(
+   ))
 
-(define-abbrev-table 'c++-mode-abbrev-table '())
+(define-abbrev-table 'c++-mode-abbrev-table
+  '(
+   ))
 
-(define-abbrev-table 'c-mode-abbrev-table '())
+(define-abbrev-table 'c-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'change-log-mode-abbrev-table '())
 
@@ -599,8 +605,12 @@
 
 (define-abbrev-table 'global-abbrev-table
   '(
+    ("corecting" "correcting" nil 0)
+    ("editinga" "editing" nil 0)
     ("mb" "remy tomasetto" nil 1)
     ("mbm" "remy.tomasetto@al-enterprise.com" nil 1)
+    ("tesst" "test" nil 0)
+    ("thiis" "this" nil 0)
    ))
 
 (define-abbrev-table 'help-mode-abbrev-table '())
@@ -615,7 +625,9 @@
 
 (define-abbrev-table 'inferior-python-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table '())
+(define-abbrev-table 'java-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'js-jsx-mode-abbrev-table '())
 
@@ -683,7 +695,9 @@
 
 (define-abbrev-table 'nroff-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table '())
+(define-abbrev-table 'objc-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -697,7 +711,9 @@
 
 (define-abbrev-table 'pascal-mode-abbrev-table '())
 
-(define-abbrev-table 'pike-mode-abbrev-table '())
+(define-abbrev-table 'pike-mode-abbrev-table
+  '(
+   ))
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 

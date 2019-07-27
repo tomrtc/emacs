@@ -205,7 +205,7 @@ Example of an XCode UUID: a513b85041a3535fc3520c3d."
     (perform-replace from
                      (read-from-minibuffer (format "Replace %s with: "
                                                    from))
-t nil nil)))
+		     t nil nil)))
 
 (defun convert-size-to-bytes (s)
   "Given a size with suffix K or M, returns the size in bytes"
@@ -214,7 +214,7 @@ t nil nil)))
          (last-char (downcase (substring s (- slen 1) slen))))
     (cond
      ((string= last-char "k") (* 1024 (string-to-number all-but-last)))
-((string= last-char "m") (* 1048576 (string-to-number all-but-last))))))
+     ((string= last-char "m") (* 1048576 (string-to-number all-but-last))))))
 
 (defun strip-text-properties(txt)
   "Does what it sayd. http://stackoverflow.com/a/8377127/209050"
@@ -242,19 +242,19 @@ specified by `start' and `end'"
 `N' (field number) and `delimiter' (using `m/-extract-field-from-region')."
   (setq delimiter (or delimiter " "))
   (mapc fn (m/-extract-field-from-region (region-beginning)
-                                          (region-end)
-                                          N
-                                          delimiter)))
+                                         (region-end)
+                                         N
+                                         delimiter)))
 
 (defun m/extract-field-from-region (start end)
   "Like cut -dD -fN where D and N are read from the user"
   (interactive "r")
   (let ((res (m/-extract-field-from-region start
-                                            end
-                                            (string-to-number (read-from-minibuffer "Field: "
-                                                                                    "0"))
-                                            (read-from-minibuffer "Field [default=\" \"]: "
-                                                                  " "))))
+                                           end
+                                           (string-to-number (read-from-minibuffer "Field: "
+                                                                                   "0"))
+                                           (read-from-minibuffer "Field [default=\" \"]: "
+                                                                 " "))))
     (message "%s" (mapconcat 'identity res "\n"))))
 
 (defun smart-beginning-of-line ()
@@ -351,6 +351,50 @@ specified by `start' and `end'"
 (global-set-key (kbd "C-e") 'end-of-line)
 
 (global-set-key (kbd "C-:") 'dabbrev-expand)
+(global-set-key (kbd "C-!") 'ispell-word-then-abbrev)
+
+
+(defun ispell-word-then-abbrev (p)
+  "Call `ispell-word', then create an abbrev for it.
+With prefix P, create local abbrev.  Otherwise it will
+be global.
+If there's nothing wrong with the word at point, keep
+looking for a typo until the beginning of buffer.  You can
+skip typos you don't want to fix with `SPC', and you can
+abort completely with `C-g'."
+  (interactive "P")
+  (let (bef aft)
+    (save-excursion
+      (while (if (setq bef (thing-at-point 'word))
+                 ;; Word was corrected or used quit.
+                 (if (ispell-word nil 'quiet)
+                     nil ; End the loop.
+                   ;; Also end if we reach `bob'.
+                   (not (bobp)))
+               ;; If there's no word at point, keep looking
+               ;; until `bob'.
+               (not (bobp)))
+        (backward-word))
+      (setq aft (thing-at-point 'word)))
+    (if (and aft bef (not (equal aft bef)))
+        (let ((aft (downcase aft))
+              (bef (downcase bef)))
+          (define-abbrev
+            (if p local-abbrev-table global-abbrev-table)
+            bef aft)
+
+          (message "\"%s\" now expands to \"%s\" %sally"
+                   bef aft (if p "loc" "glob")))
+      (user-error "No typo at or before point"))))
+
+
+
+
+
+
+
+
+
 
 
 (define-generic-mode 'ragel-mode
