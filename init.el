@@ -124,11 +124,13 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
-(use-package abbrev
-  :config
-  (defvar save-abbrevs)
-  (setq save-abbrevs 'silently)
-  (setq-default abbrev-mode t))
+(use-package visual-regexp
+  :bind (("<f11>"  . vr/replace)
+	 ("C-<f11>"  . vr/query-replace)))
+
+(use-package eldoc-cmake
+  :hook (cmake-mode . eldoc-cmake-enable))
+
 
 (use-package crux
   :ensure t
@@ -324,7 +326,7 @@
  '(TeX-show-compilation t)
  '(package-selected-packages
    (quote
-    (iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
