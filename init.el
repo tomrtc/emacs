@@ -58,7 +58,7 @@
          (width . 100)
          (height . 38)
         (auto-raise . t)
-        (cursor-color . "red")
+        (cursor-color . "orange")
         ))
 
 (set-language-environment "UTF-8")
@@ -89,12 +89,14 @@
 
 ;; reduce the frequency of garbage collection by making it happen on
 ;; each 50MB of allocated data (the default is on every 0.76MB)
-(setq gc-cons-threshold 50000000)
+(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-percentage 0.6)
+
 (setq inhibit-startup-message t)
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-(menu-bar-mode -1)
+;;(menu-bar-mode -1)
 (when window-system
   (set-scroll-bar-mode nil))
 
@@ -103,14 +105,18 @@
 ;(hl-line-mode -1)
 ;; highlight the current line
 (global-hl-line-mode +1)
+;; Non-nil means draw block cursor as wide as the glyph under it.
+;; For example, if a block cursor is over a tab, it will be drawn as
+;; wide as that tab on the display.
+(setq x-stretch-cursor t)
 
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
 
 
 (setq mouse-yank-at-point t		; Yank where the point currently is
-      x-select-enable-primary t         ; Yank use the primary selection if available
-      x-select-enable-clipboard t       ; Yank use the clipboard if available
+      select-enable-primary t         ; Yank use the primary selection if available
+      select-enable-clipboard t       ; Yank use the clipboard if available
       save-interprogram-paste-before-kill t ; Put clipboard/selection into kill ring
       x-selection-timeout 10                ; Workaround. See https://debbugs.gnu.org/16737
       echo-keystrokes 0.1               ; Show keystrokes early
@@ -146,7 +152,7 @@
   :bind (("C-c o" . crux-open-with)
 	 ("M-o" . crux-smart-open-line)
 	 ("C-c n" . crux-cleanup-buffer-or-region)
-	 ("C-c f" . crux-recentf-ido-find-file)
+	 ("C-c f" . crux-recentf-find-file)
 	 ("C-M-z" . crux-indent-defun)
 	 ("C-c u" . crux-view-url)
 	 ("C-c e" . crux-eval-and-replace)
@@ -158,7 +164,7 @@
 	 ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
 	 ("C-c I" . crux-find-user-init-file)
 	 ("C-c S" . crux-find-shell-init-file)
-	 ("s-r" . crux-recentf-ido-find-file)
+	 ("s-r" . crux-recentf-find-file)
 	 ("s-j" . crux-top-join-line)
 	 ("C-^" . crux-top-join-line)
 	 ("s-k" . crux-kill-whole-line)

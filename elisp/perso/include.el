@@ -62,7 +62,7 @@
 (require 'cl) ; push and pop
 
 (defvar include-db-scan-dirs
-  '("/usr/man/man2" "/usr/share/man/man2")
+  '("/usr/share/man/man3" "/usr/share/man/man2")
   "*List of directories with manpages to scan for function #includes.")
 
 (defvar include-db-filename
@@ -153,19 +153,28 @@ files."
     (forward-line 1)
     (let (calls headers)
       (while (not (or (eobp) (looking-at "^\\.SH")))
-	(cond ((looking-at "^.*\\(<[^>]+>\\).*$")
+	(cond ((looking-at "^.*\\(<[^=0-9>]+>\\).*$")
 	       (push (match-string 1) headers))
-	      ((looking-at "^.*[ \t]+\\([A-Za-z0-9_]+\\)(")
+	      ((looking-at "^.*[ \t*]+\\([A-Za-z0-9_]+\\)(")
 	       (push (match-string 1) calls)))
 	(forward-line 1))
       (while calls
 	(push (cons (pop calls) headers) result)))
     result))
 
+(setq totov '())
+
+(defun toto ()
+  ""
+  (interactive)
+  (goto-char (point-min))
+  (setq totov (include-scan-funcname)))
+
 (defun include-scan-file (file)
   "Scan manpage (roff source) FILE for functions and headers."
   (or (file-readable-p file)
       (signal 'file-error (format "%s does not exist or is unreadable" file)))
+  (message file)
   (save-excursion
     ;; FIXME: Why does passing a nil RAWFILE arg cause the "file is
     ;; write protected" message to be displayed?
