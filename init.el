@@ -9,14 +9,6 @@
 
 ;;; Change log:
 
-;; D:\>choco install hunspell.portable
-;; mkdir C:\Hunspell\
-;; cp ~/dicts/* Hunspell/
-;; MSYS /c/Hunspell
-;; $ ls
-;; en_AU.aff  en_CA.aff  en_GB.aff  en_US.aff  en_ZA.aff  fr.aff  history.dot     hyph_en_US.dic
-;; en_AU.dic  en_CA.dic  en_GB.dic  en_US.dic  en_ZA.dic  fr.dic
-;; hyph_en_GB.dic  hyph_fr.dic
 
 
 ;;; Code:
@@ -26,12 +18,6 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (eval-when-compile (package-initialize))
-
-(unless (package-installed-p 'auto-compile)
-  (package-refresh-contents)
-  (package-install 'auto-compile))
-(eval-when-compile
-  (require 'auto-compile))
 
 ;; use package
 (unless (package-installed-p 'use-package)
@@ -46,7 +32,6 @@
   (package-install 'req-package))
 (eval-when-compile
   (require 'req-package))
-
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -76,7 +61,7 @@
 (setq line-number-display-limit nil)
 (setq line-number-display-limit-width 250000)
 ;; Newline at end of file
-(load "files")
+
 (defvar require-final-newline)
 (setq require-final-newline t)
 (defvar user-mail-address)
@@ -101,7 +86,7 @@
   (set-scroll-bar-mode nil))
 
 (blink-cursor-mode -1)
-(set-fringe-mode 0)
+;;(set-fringe-mode 0)
 ;(hl-line-mode -1)
 ;; highlight the current line
 (global-hl-line-mode +1)
@@ -237,10 +222,7 @@
   )) ; use-package flyspell
 
 
-
-
-
-  (use-package flycheck
+(use-package flycheck
   :ensure t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
@@ -350,6 +332,8 @@
 
 (setq load-path (append (directory-files "~/.emacs.d/elisp" t "^[^.]")
 			load-path))
+(setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
+
 
 (if (string-equal system-type  "gnu/linux")
     (setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")			load-path)))
@@ -357,8 +341,27 @@
 (require 'defaults)
 (require 'keyboard)
 
+;; ;; Line numbers
+(require 'linum)
+(global-linum-mode 1)
+(setq linum-format (quote "%4d  "))
 
-(setq git-gutter-fr+-side 'right-fringe)
+(use-package git-gutter
+  :ensure t
+  :init (global-git-gutter-mode)
+  :config (progn
+	    (git-gutter:linum-setup)
+	    (set-face-foreground 'git-gutter:modified "light goldenrod")
+	    (set-face-foreground 'git-gutter:added "light green")
+	    (set-face-foreground 'git-gutter:deleted "light salmon")
+	    (setq git-gutter:added-sign "\u2295")
+	    (setq git-gutter:deleted-sign "\u2296")
+	    (setq git-gutter:modified-sign "\u2297")
+	    )
+  :diminish (git-gutter+-mode . "gg"))
+
+
+
 
 
 
@@ -370,6 +373,8 @@
 (message ".emacs loaded")
 (switch-to-buffer "*Messages*")
 
+(load-theme 'salm t)
+
 (provide 'init)
 ;;; init.el ends here
 (custom-set-variables
@@ -378,9 +383,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-show-compilation t)
+ '(custom-safe-themes
+   (quote
+    ("d299e535e134c125e31a68574ea76f888505552c6d35add308eec950e366286b" default)))
+ '(fringe-mode 0 nil (fringe))
  '(package-selected-packages
    (quote
-    (eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

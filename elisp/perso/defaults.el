@@ -75,28 +75,6 @@
 
 (fset 'pabbrev-suggestions-goto-buffer 'pabbrevx-suggestions-goto-buffer)
 
-;;; Parenthesis
-
-;; Use mic-paren in replacement of standard paren.el
-(use-package mic-paren
-  :ensure t
-  :config
-  (paren-activate)                      ; activating
-  (add-hook 'c-mode-common-hook
-	    (function (lambda ()
-			(paren-toggle-open-paren-context 1))))
-  ;; In LaTeX-mode we want this
-  (add-hook 'LaTeX-mode-hook
-	    (function (lambda ()
-			(paren-toggle-matching-quoted-paren 1)
-			(paren-toggle-matching-paired-delimiter 1)))))
-
-
-
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :mode "\\.md\\'")
 
 ;; `describe-bindings' orders the keymaps by precedence so the
 ;; major-mode goes next to last, which makes it a bit inconvenient
@@ -108,10 +86,10 @@
     (search-forward "Major Mode Bindings")
     (narrow-to-page)))
 
-;; Line numbers
-(require 'linum)
-(global-linum-mode 1)
-(setq linum-format (quote "%4d  "))
+;; ;; Line numbers
+;; (require 'linum)
+;; (global-linum-mode 1)
+;; (setq linum-format (quote "%4d  "))
 
 
 ;; Function for finding out info about font at cursor
@@ -216,12 +194,14 @@
 
 (setq powerline-height 24)
 
-(load-theme 'misterioso t)
+
+
+
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 (require  'cpp-auto-include)
 
-;;(require 'asn1-mode)
+
 (require 'txl-mode)
 (add-to-list 'auto-mode-alist '("\\.\\([tT]xl\\|[gG]rm\\|[gG]rammar\\|[rR]ul\\(es\\)?\\|[mM]od\\(ule\\)?\\)$" . txl-mode))
 

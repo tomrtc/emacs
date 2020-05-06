@@ -1,6 +1,6 @@
 ;;; KEYBOARD.EL --- map function keys to elisp funs.
 
-;; Copyright (C) 1996-2017 Remy TOMASETTO
+;; Copyright (C) 1996-2020 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
 
@@ -27,10 +27,8 @@
 
 ;;; Code:
 
-(defconst keyboard-version "2017.2"
+(defconst keyboard-version "2020.5"
   "Keyboard-version-id.")
-
-
 
 ;; unbound suspend-frame
 (global-unset-key (kbd "C-z"))
@@ -75,6 +73,16 @@
 (global-set-key [C-home] 'beginning-of-buffer)
 (global-set-key [C-end] 'end-of-buffer)
 
+;; shorthand for interactive lambdas
+(defmacro λ (&rest body)
+  `(lambda ()
+     (interactive)
+     ,@body))
+
+(global-set-key (kbd "s-l") (λ (insert "\u03bb")))
+(global-set-key (kbd "s-+") (λ (insert "\u2295")))
+
+(global-set-key (kbd "s-g") (λ (git-gutter-fr+-minimal)))
 
 (defun open-readme-in-git-root-directory ()
   (interactive)
@@ -318,16 +326,8 @@ specified by `start' and `end'"
 
 
 
-;; Let me write these characters, plx
-(global-set-key (kbd "M-2") "@")
-(global-set-key (kbd "M-4") "$")
-(global-set-key (kbd "M-8") "[")
-(global-set-key (kbd "M-9") "]")
-(global-set-key (kbd "M-(") "{")
-(global-set-key (kbd "M-)") "}")
-(global-set-key (kbd "M-7") "|")
-(global-set-key (kbd "M-/") "\\")
-(global-set-key (kbd "C-x M-l") "λ")
+
+
 (global-set-key (kbd "M-n") 'next-error) ; also works for rgrep results
 (global-set-key (kbd "M-p") 'previous-error)
 
@@ -387,16 +387,6 @@ abort completely with `C-g'."
                    bef aft (if p "loc" "glob")))
       (user-error "No typo at or before point"))))
 
-
-
-
-
-
-
-
-
-
-
 (define-generic-mode 'ragel-mode
   '(?#) ;; Comments
   '(
@@ -447,19 +437,19 @@ abort completely with `C-g'."
 
 
 
-;; Let me write these characters, plx
-(global-set-key (kbd "M-à") "@")
-(global-set-key (kbd "M-'") "{")
-(global-set-key (kbd "M-=") "}")
-(global-set-key (kbd "M-\"") "#")
-(global-set-key (kbd "M-_") "\\")
-(global-set-key (kbd "M--") "|")
-(global-set-key (kbd "M-ç") "^")
-(global-set-key (kbd "M-(") "[")
-(global-set-key (kbd "M-)") "]")
-(global-set-key (kbd "M-è") "`")
-(global-set-key (kbd "M-é") "~")
-(global-set-key (kbd "M-/") "\\")
+
+(global-set-key (kbd "s-à") "@")
+(global-set-key (kbd "s-'") "{")
+(global-set-key (kbd "s-=") "}")
+(global-set-key (kbd "s-\"") "#")
+(global-set-key (kbd "s-_") "\\")
+(global-set-key (kbd "s--") "|")
+(global-set-key (kbd "s-ç") "^")
+(global-set-key (kbd "s-(") "[")
+(global-set-key (kbd "s-)") "]")
+(global-set-key (kbd "s-è") "`")
+(global-set-key (kbd "s-é") "~")
+(global-set-key (kbd "s-/") "\\")
 
 
 (defun move-lines (n)
@@ -503,7 +493,9 @@ abort completely with `C-g'."
 (global-set-key (kbd "C-s-<up>") 'move-lines-up)
 
 
-
+;; for magit
+(global-set-key (kbd "C-<f9>") 'magit-status)
+(global-set-key (kbd "M-<f9>") 'magit-log)
 
 (provide 'keyboard)
 ;;; KEYBOARD.EL ends here

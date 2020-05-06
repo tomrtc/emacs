@@ -243,5 +243,5 @@ Reload the theme after changing anything in this group."
 
 
 (provide-theme 'salm)
-(provide 'salm)
+
 ;;; salm-theme.el ends here
