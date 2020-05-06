@@ -29,7 +29,10 @@
 
 (define-abbrev-table 'git-gutter+-commit-mode-abbrev-table '())
 
-(define-abbrev-table 'global-abbrev-table '())
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("remy" "remy tomasetto" nil 0)
+   ))
 
 (define-abbrev-table 'help-mode-abbrev-table '())
 
@@ -76,4 +79,3 @@
 (define-abbrev-table 'vc-git-region-history-mode-abbrev-table '())
 
 (define-abbrev-table 'xref--xref-buffer-mode-abbrev-table '())
-

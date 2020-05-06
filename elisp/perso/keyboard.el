@@ -47,16 +47,6 @@
 
 (global-set-key [(control =)] 'match-paren)
 
-;; ;; Load rtags and start the cmake-ide-setup process
-;; (require 'rtags)
-
-;; (setq rtags-autostart-diagnostics t)
-;; (rtags-diagnostics)
-;; (setq rtags-completions-enabled t)
-;; (rtags-enable-standard-keybindings)
-;; (cmake-ide-setup)
-
-
 ;; ...never switch to overwrite mode, not even accidentally
 (global-set-key [insert] 'undefined)
 
@@ -73,8 +63,10 @@
 (global-set-key [C-home] 'beginning-of-buffer)
 (global-set-key [C-end] 'end-of-buffer)
 
-;; shorthand for interactive lambdas
+
 (defmacro λ (&rest body)
+  "λ allow to define a interactive lambda for key binding, BODY is macro body."
+  (interactive "r")
   `(lambda ()
      (interactive)
      ,@body))
@@ -85,6 +77,7 @@
 (global-set-key (kbd "s-g") (λ (git-gutter-fr+-minimal)))
 
 (defun open-readme-in-git-root-directory ()
+  "Locate and open the read-me of current git project tree."
   (interactive)
   (let (filename
         (root-dir (locate-dominating-file (file-name-as-directory (file-name-directory buffer-file-name)) ".git"))
@@ -104,31 +97,28 @@
 
 
 
-(defun jart-unfill-paragraph ()
+(defun unfill-paragraph ()
   "Take a multi-line paragraph and make it into a single line.
 Thanks: Stefan Monnier <foo@acm.org>"
   (interactive)
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-(defun jart-face-at-point ()
+(defun local-face-at-point ()
   "Tell me who is responsible for ugly color under cursor."
   (interactive)
   (message "%S: %s" (face-at-point)
 	   (face-documentation (face-at-point))))
 
 (defun flush-blank-lines (start end)
+  "Blank lines from START to END."
   (interactive "r")
   (flush-lines "^\\s-*$" start end nil))
-
-(defun collapse-blank-lines (start end)
-  (interactive "r")
-  (replace-regexp "^\n\\{2,\\}" "\n" nil start end))
 
 (defun buffer-list-to-columns (ncolumns)
   "Modify a 1-column stringlist in current buffer into NCOLUMNS aligned columns.
 List of items must begin in buffer column 0, and must not contain
-whitespaces."
+white-spaces."
   (interactive)
   (let ((cols (1- ncolumns)) result)
     (save-excursion
@@ -147,14 +137,15 @@ whitespaces."
 
 
 (defun toto ()
+  "Misc."
   (interactive)
   (buffer-list-to-columns 6))
 
 
 (defun insert-current-time (prefix)
-  "Insert the current date. With prefix-argument, use 24h format.
-   With two prefix arguments, write out an ISO 8601 date and
-   time."
+  "Insert the current date.  With PREFIX argument, use 24h format.
+With two prefix arguments, write out an ISO 8601 date and
+time."
   (interactive "P")
   (let ((format (cond
                  ((not prefix) "%FT%T%z")
@@ -162,49 +153,9 @@ whitespaces."
                  ((equal prefix '(16)) "%I:%M:%S %p"))))
     (insert (format-time-string format))))
 
-;; Insert generated UUIDs
-(random t)
 
-(defun random-ms-uuid ()
-  (format "%04x%04x-%04x-4%s-%s-%06x%06x"
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (substring (format "%04x" (random (expt 16 4))) 1)
-          (concat
-           (let ((n (random 4)))
-             (substring "89ab" n (1+ n)))
-           (substring (format "%04x" (random (expt 16 4))) 1))
-          (random (expt 16 6))
-          (random (expt 16 6))))
-
-(defun random-xcode-uuid ()
-  (format "%04X%04X%04X%04X%04X%04X"
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (random (expt 16 4))
-          (random (expt 16 4))))
-
-(defun insert-uuid (prefix)
-  "Insert a random universally unique identifier (UUID). A UUID
-is a 128-bit (16 byte) number formatted in a certain way.
-Example of a UUID: 1df63142-a513-X850-Y1a3-535fc3520c3d
-Where X is 4 and Y is one of {8,9,a,b}.
-With a prefix argument, insert a random UUID suitable for use in
-XCode projects. An XCode UUID is a 96-bit (12 byte) number
-formatted as a hex string.
-Example of an XCode UUID: a513b85041a3535fc3520c3d."
-  (interactive "P")
-  (insert
-   (cond
-    ((not prefix) (random-ms-uuid))
-    ((equal prefix '(4)) (random-xcode-uuid)))))
-
-;;(bind-key "C-c u" 'insert-uuid)
-(defun m/query-replace-using-region (start end)
-  "Like `query-replace' but uses region as the search string"
+(defun local-query-replace-using-region (start end)
+  "Like `query-replace' but use region content from START and END as the search string."
   (interactive "r")
   (let ((use-region-p nil)
         (from (buffer-substring-no-properties start end)))
@@ -215,14 +166,6 @@ Example of an XCode UUID: a513b85041a3535fc3520c3d."
                                                    from))
 		     t nil nil)))
 
-(defun convert-size-to-bytes (s)
-  "Given a size with suffix K or M, returns the size in bytes"
-  (let* ((slen (length s))
-         (all-but-last (substring s 0 (- slen 1 )))
-         (last-char (downcase (substring s (- slen 1) slen))))
-    (cond
-     ((string= last-char "k") (* 1024 (string-to-number all-but-last)))
-     ((string= last-char "m") (* 1048576 (string-to-number all-but-last))))))
 
 (defun strip-text-properties(txt)
   "Does what it sayd. http://stackoverflow.com/a/8377127/209050"
@@ -266,10 +209,10 @@ specified by `start' and `end'"
     (message "%s" (mapconcat 'identity res "\n"))))
 
 (defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-     Move point to the first non-whitespace character on this line.
-     If point was already at that position, move point to beginning of line."
-  (interactive) ; Use (interactive "^") in Emacs 23 to make shift-select work
+  "Move point to first non-white-space character or 'beginning-of-line'.
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive)
   (let ((oldpos (point)))
     (back-to-indentation)
     (and (= oldpos (point))
@@ -282,7 +225,7 @@ specified by `start' and `end'"
 
 ;; fill comment to width
 (defun fill-comment ()
-  "Fill text to column width for comments"
+  "Fill text to column width for comments."
   (interactive)
   (save-excursion
     (move-end-of-line 1)
@@ -303,7 +246,7 @@ specified by `start' and `end'"
 
 ;;; from https://github.com/thomasf/dotfiles-thomasf-emacs
 (defun toggle-fold ()
-  "Toggle fold all lines larger than indentation on current line"
+  "Toggle fold all lines larger than indentation on current line."
   (interactive)
   (let ((col 1))
     (save-excursion
@@ -325,33 +268,6 @@ specified by `start' and `end'"
     (call-interactively #'fill-paragraph)))
 
 
-
-
-
-(global-set-key (kbd "M-n") 'next-error) ; also works for rgrep results
-(global-set-key (kbd "M-p") 'previous-error)
-
-;; Home/End keyboard shortcuts
-(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
-   Move point to the first non-whitespace character on this line.
-   If point was already at that position, move point to beginning of line."
-  (interactive "^") ; Use (interactive "^") in Emacs 23 to make shift-select work
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-         (beginning-of-line))))
-
-
-(global-set-key [home] 'smart-beginning-of-line)
-(global-set-key (kbd "C-a") 'smart-beginning-of-line)
-
-
-(define-key global-map [end] 'end-of-line)
-(global-set-key (kbd "C-e") 'end-of-line)
-
-(global-set-key (kbd "C-:") 'dabbrev-expand)
-(global-set-key (kbd "C-!") 'ispell-word-then-abbrev)
 
 
 (defun ispell-word-then-abbrev (p)
@@ -387,6 +303,29 @@ abort completely with `C-g'."
                    bef aft (if p "loc" "glob")))
       (user-error "No typo at or before point"))))
 
+(global-set-key (kbd "M-n") 'next-error) ; also works for rgrep results
+(global-set-key (kbd "M-p") 'previous-error)
+(global-set-key [home] 'smart-beginning-of-line)
+(global-set-key (kbd "C-a") 'smart-beginning-of-line)
+(define-key global-map [end] 'end-of-line)
+(global-set-key (kbd "C-e") 'end-of-line)
+(global-set-key (kbd "C-:") 'dabbrev-expand)
+(global-set-key (kbd "C-!") 'ispell-word-then-abbrev)
+
+;; utilities for french keyboard.
+(global-set-key (kbd "s-à") "@")
+(global-set-key (kbd "s-'") "{")
+(global-set-key (kbd "s-=") "}")
+(global-set-key (kbd "s-\"") "#")
+(global-set-key (kbd "s-_") "\\")
+(global-set-key (kbd "s--") "|")
+(global-set-key (kbd "s-ç") "^")
+(global-set-key (kbd "s-(") "[")
+(global-set-key (kbd "s-)") "]")
+(global-set-key (kbd "s-è") "`")
+(global-set-key (kbd "s-é") "~")
+(global-set-key (kbd "s-/") "\\")
+
 (define-generic-mode 'ragel-mode
   '(?#) ;; Comments
   '(
@@ -421,38 +360,13 @@ abort completely with `C-g'."
     (":>>" . font-lock-constant-face)
     ("<:" . font-lock-constant-face)
     )
-  nil ;'(".rl\\'")
+  nil
   nil
   "Generic mode for mmm-mode editing .rl files.")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-(global-set-key (kbd "s-à") "@")
-(global-set-key (kbd "s-'") "{")
-(global-set-key (kbd "s-=") "}")
-(global-set-key (kbd "s-\"") "#")
-(global-set-key (kbd "s-_") "\\")
-(global-set-key (kbd "s--") "|")
-(global-set-key (kbd "s-ç") "^")
-(global-set-key (kbd "s-(") "[")
-(global-set-key (kbd "s-)") "]")
-(global-set-key (kbd "s-è") "`")
-(global-set-key (kbd "s-é") "~")
-(global-set-key (kbd "s-/") "\\")
-
-
 (defun move-lines (n)
+  "Core body of move N packed line up or down."
   (let ((beg) (end) (keep))
     (if mark-active
         (save-excursion
@@ -480,12 +394,12 @@ abort completely with `C-g'."
               deactivate-mark nil))))
 
 (defun move-lines-up (n)
-  "move the line(s) spanned by the active region up by N lines."
+  "Move the line(s) spanned by the active region up by N lines."
   (interactive "*p")
   (move-lines (- (or n 1))))
 
 (defun move-lines-down (n)
-  "move the line(s) spanned by the active region down by N lines."
+  "Move the line(s) spanned by the active region down by N lines."
   (interactive "*p")
   (move-lines (or n 1)))
 

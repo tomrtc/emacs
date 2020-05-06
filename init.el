@@ -1,7 +1,7 @@
 ;;; init.el --- emacs configuration elisp code using req-package
 ;; -*- mode: emacs-lisp; auto-compile-lisp: nil; -*-
 
-;; Copyright (C) 2019 Remy TOMASETTO
+;; Copyright (C) 1996-2020 Remy TOMASETTO
 
 ;; Author: Remy TOMASETTO <remy.tomasetto@al-enterprise.com>
 ;; Keywords:
@@ -97,6 +97,9 @@
 
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
+
+
+
 
 
 (setq mouse-yank-at-point t		; Yank where the point currently is
