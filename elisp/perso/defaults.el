@@ -92,6 +92,8 @@
 ;; (setq linum-format (quote "%4d  "))
 
 
+
+
 ;; Function for finding out info about font at cursor
 (defun what-face (pos)
   "Describe what face is at POS."
@@ -218,6 +220,43 @@
 ;; http://mbork.pl/2015-01-10_A_few_random_Emacs_tips
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 (set-face-background 'hl-line "#372E2D")
+
+(require 'memento-mori)
+(memento-mori-mode)
+
+
+(setq comint-output-filter-functions
+      (remove 'ansi-color-process-output comint-output-filter-functions))
+
+(add-hook 'shell-mode-hook
+          (lambda ()
+            ;; Disable font-locking in this buffer to improve performance
+            (font-lock-mode -1)
+            ;; Prevent font-locking from being re-enabled in this buffer
+            (make-local-variable 'font-lock-function)
+            (setq font-lock-function (lambda (_) nil))
+            (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+
+;; Also set TERM accordingly (xterm-256color) in the shell itself.
+
+;; An example configuration for eshell
+
+(require 'eshell) ; or use with-eval-after-load
+
+(add-hook 'eshell-before-prompt-hook
+          (lambda ()
+            (setq xterm-color-preserve-properties t)))
+
+(add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+(setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+(setenv "TERM" "xterm-256color")
+
+(setq compilation-environment '("TERM=xterm-256color"))
+
+(defun my/advice-compilation-filter (f proc string)
+  (funcall f proc (xterm-color-filter string)))
+
+(advice-add 'compilation-filter :around #'my/advice-compilation-filter)
 
 (provide 'defaults)
 ;;; defaults.el ends here

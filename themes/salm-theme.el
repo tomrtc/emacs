@@ -176,7 +176,7 @@ Reload the theme after changing anything in this group."
  `(compilation-column-number ((t (:foreground ,mery-butter-2))))
  `(cursor ((t (:background "grey80"))))
  `(custom-button ((t (:background "#2D3232" :foreground "#DDD" :box (:line-width 2 :style released-button)))))
-
+ `(region ((t (:background ,mery-plum-3))))
  `(default ((t (:inherit nil :stipple nil :background ,mery-alum-6  :foreground ,mery-alum-1
 			 :inverse-video nil :box nil :strike-through nil :overline nil
 			 :underline nil :slant normal :weight normal

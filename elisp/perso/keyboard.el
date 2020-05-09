@@ -45,23 +45,23 @@
 	  ((string-match "[\]})>]" prev-char) (backward-sexp 1))
 	  (t (error "%s" "Not on a paren, brace, or bracket")))))
 
-(global-set-key [(control =)] 'match-paren)
+(global-set-key [(control =)]	'match-paren)
 
 ;; ...never switch to overwrite mode, not even accidentally
-(global-set-key [insert] 'undefined)
+(global-set-key [insert]	'undefined)
 
-(global-set-key [f1]  'goto-line)
-(global-set-key [S-f1]  'what-line)
+(global-set-key [f1]		'goto-line)
+(global-set-key [S-f1]		'what-line)
 
-(global-set-key [M-f1]  'mark-c-function)
-(global-set-key [f2]  'delete-other-windows)
+(global-set-key [M-f1]		'mark-c-function)
+(global-set-key [f2]		'delete-other-windows)
 
-(global-set-key [f3]  'compile)
-(global-set-key [f4]  'next-error)
-(global-set-key [f5]  'previous-error)
-(global-set-key [f6]  'vc-toggle-read-only)
-(global-set-key [C-home] 'beginning-of-buffer)
-(global-set-key [C-end] 'end-of-buffer)
+(global-set-key [f3]		'compile)
+(global-set-key [f4]		'next-error)
+(global-set-key [f5]		'previous-error)
+(global-set-key [f6]		'vc-toggle-read-only)
+(global-set-key [C-home]	'beginning-of-buffer)
+(global-set-key [C-end]		'end-of-buffer)
 
 
 (defmacro λ (&rest body)
@@ -303,28 +303,28 @@ abort completely with `C-g'."
                    bef aft (if p "loc" "glob")))
       (user-error "No typo at or before point"))))
 
-(global-set-key (kbd "M-n") 'next-error) ; also works for rgrep results
-(global-set-key (kbd "M-p") 'previous-error)
-(global-set-key [home] 'smart-beginning-of-line)
-(global-set-key (kbd "C-a") 'smart-beginning-of-line)
-(define-key global-map [end] 'end-of-line)
-(global-set-key (kbd "C-e") 'end-of-line)
-(global-set-key (kbd "C-:") 'dabbrev-expand)
-(global-set-key (kbd "C-!") 'ispell-word-then-abbrev)
+(global-set-key (kbd "M-n")	'next-error) ; also works for rgrep results
+(global-set-key (kbd "M-p")	'previous-error)
+(global-set-key [home]		'smart-beginning-of-line)
+(global-set-key (kbd "C-a")	'smart-beginning-of-line)
+(define-key global-map [end]	'end-of-line)
+(global-set-key (kbd "C-e")	'end-of-line)
+(global-set-key (kbd "C-:")	'dabbrev-expand)
+(global-set-key (kbd "C-!")	'ispell-word-then-abbrev)
 
 ;; utilities for french keyboard.
-(global-set-key (kbd "s-à") "@")
-(global-set-key (kbd "s-'") "{")
-(global-set-key (kbd "s-=") "}")
-(global-set-key (kbd "s-\"") "#")
-(global-set-key (kbd "s-_") "\\")
-(global-set-key (kbd "s--") "|")
-(global-set-key (kbd "s-ç") "^")
-(global-set-key (kbd "s-(") "[")
-(global-set-key (kbd "s-)") "]")
-(global-set-key (kbd "s-è") "`")
-(global-set-key (kbd "s-é") "~")
-(global-set-key (kbd "s-/") "\\")
+(global-set-key (kbd "s-à")	"@")
+(global-set-key (kbd "s-'")	"{")
+(global-set-key (kbd "s-=")	"}")
+(global-set-key (kbd "s-\"")	"#")
+(global-set-key (kbd "s-_")     "\\")
+(global-set-key (kbd "s--")	"|")
+(global-set-key (kbd "s-ç")	"^")
+(global-set-key (kbd "s-(")	"[")
+(global-set-key (kbd "s-)")	"]")
+(global-set-key (kbd "s-è")	"`")
+(global-set-key (kbd "s-é")	"~")
+(global-set-key (kbd "s-/")     "\\")
 
 (define-generic-mode 'ragel-mode
   '(?#) ;; Comments
@@ -342,23 +342,19 @@ abort completely with `C-g'."
     )
   '(
     ;; Literals
-    ;;("\\([^\\)]*\\)" . font-lock-constant-face)
-    ;;("\\[[[^\\]]*\\]" . font-lock-constant-face)
-    ("\(\"\\?'\"\'|\\?\"'\|'[^']*'\|\"[^\"]*\"\)" . font-lock-constant-face)
+    ("\(\"\\?'\"\'|\\?\"'\|'[^']*'\|\"[^\"]*\"\)"
+					.	font-lock-constant-face)
     ;; Numbers
-    ("\\<[0-9][0-9]*\\>" . font-lock-constant-face)
-    ("\\<0x[0-9a-fA-F][0-9a-fA-F]*\\>" . font-lock-constant-face)
+    ("\\<[0-9][0-9]*\\>"		.	font-lock-constant-face)
+    ("\\<0x[0-9a-fA-F][0-9a-fA-F]*\\>"	.	font-lock-constant-face)
     ;; Operators
-    ("[>$%@]" . font-lock-constant-face)
-    ("<>\|<" . font-lock-constant-face)
-    ;;("[>\<$%@][!\^/*~]" . font-lock-constant-face)
-    ;;("[>$%]?" . font-lock-constant-face)
-    ;;("<>[!\^/*~]" . font-lock-constant-face)
-    ("=>" . font-lock-constant-face)
-    ("->" . font-lock-constant-face)
-    (":>" . font-lock-constant-face)
-    (":>>" . font-lock-constant-face)
-    ("<:" . font-lock-constant-face)
+    ("[>$%@]"				.	font-lock-constant-face)
+    ("<>\|<"				.	font-lock-constant-face)
+    ("=>"				.	font-lock-constant-face)
+    ("->"				.	font-lock-constant-face)
+    (":>"				.	font-lock-constant-face)
+    (":>>"				.	font-lock-constant-face)
+    ("<:"				.	font-lock-constant-face)
     )
   nil
   nil
@@ -403,13 +399,13 @@ abort completely with `C-g'."
   (interactive "*p")
   (move-lines (or n 1)))
 
-(global-set-key (kbd "C-s-<down>") 'move-lines-down)
-(global-set-key (kbd "C-s-<up>") 'move-lines-up)
+(global-set-key (kbd "C-s-<down>")	'move-lines-down)
+(global-set-key (kbd "C-s-<up>")	'move-lines-up)
 
 
 ;; for magit
-(global-set-key (kbd "C-<f9>") 'magit-status)
-(global-set-key (kbd "M-<f9>") 'magit-log)
+(global-set-key (kbd "C-<f9>")		'magit-status)
+(global-set-key (kbd "M-<f9>")		'magit-log)
 
 (provide 'keyboard)
 ;;; KEYBOARD.EL ends here

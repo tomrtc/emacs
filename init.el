@@ -164,6 +164,14 @@
 	 ([remap kill-whole-line] . crux-kill-whole-line)
 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
+
+(use-package expand-region
+  :bind
+  ("C-à" . er/expand-region)
+  ("C-ç" . (lambda () (interactive) (er/expand-region -1)))
+  ("C-)" . (lambda () (interactive) (er/expand-region 0))))
+
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
@@ -235,12 +243,23 @@
   :config
   (which-key-mode +1))
 
+
+
+;; query-replace with feedback in modeline.
+;; anzu-replace-at-cursor-thing is useful in refactoring such as changing variable name in the function.
 (use-package anzu
   :ensure t
   :bind (("M-%" . anzu-query-replace)
 	 ("C-M-%" . anzu-query-replace-regexp))
   :config
   (global-anzu-mode +1))
+
+;; iedit changing variable name in the function.
+(use-package iedit
+    :ensure t
+    :defer t
+    :init
+    (define-key global-map (kbd "C-<") 'iedit-mode))
 
 (use-package move-text
   :ensure t
@@ -304,9 +323,7 @@
   :config
   (add-hook 'c++-mode-hook #'pabbrev-mode))
 
-(use-package iedit
-    :ensure t
-    :defer t)
+
 
 (use-package popup
     :ensure t
@@ -363,11 +380,6 @@
 	    )
   :diminish (git-gutter+-mode . "gg"))
 
-
-
-
-
-
 ;; Remember from session to session all the commands introduced
 ;; in the minibuffer, files opened, etc.
 (setq savehist-file (expand-file-name "history.dot" "~/dicts"))
@@ -389,10 +401,11 @@
  '(custom-safe-themes
    (quote
     ("d299e535e134c125e31a68574ea76f888505552c6d35add308eec950e366286b" default)))
+ '(flyspell-auto-correct-binding [(control <)] nil nil "clash with iedit in prog-mode.")
  '(fringe-mode 0 nil (fringe))
  '(package-selected-packages
    (quote
-    (git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
