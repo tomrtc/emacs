@@ -273,6 +273,16 @@
   :config
   (elf-setup-default))
 
+(use-package typo
+  :config
+  (add-hook 'text-mode-hook 'typo-mode)
+  :ensure t)
+
+
+(use-package writegood-mode
+  :ensure t)
+
+
 (use-package cmake-mode
     :mode "\\(CMakeLists\\.txt\\|\\.cmake\\)\\'"
     :defer t
@@ -318,12 +328,17 @@
   :config
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
+
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+  (add-hook 'c++-mode-hook        #'aggressive-indent-mode))
+
 (use-package pabbrev
   :ensure t
   :config
   (add-hook 'c++-mode-hook #'pabbrev-mode))
-
-
 
 (use-package popup
     :ensure t
@@ -356,7 +371,8 @@
 
 
 (if (string-equal system-type  "gnu/linux")
-    (setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")			load-path)))
+    (setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")
+			    load-path)))
 
 (require 'defaults)
 (require 'keyboard)
@@ -405,7 +421,7 @@
  '(fringe-mode 0 nil (fringe))
  '(package-selected-packages
    (quote
-    (expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
+    (aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
