@@ -217,8 +217,9 @@ Reload the theme after changing anything in this group."
  `(ivy-minibuffer-match-face-4 ((t (:inherit minibuffer-prompt))))
 
  `(ivy-remote ((t (:foreground ,mery-violet))))
-
- `(link ((((class color) (min-colors 88) (background dark)) (:foreground ,mery-blue-3 :inverse-video nil :underline t))))
+;; `(markdown-link-face ((t (:foreground ,mery-base00))))
+;; `(markdown-url-face ((t (:foreground  ,mery-choc-2))))
+ `(link ((((class color) (min-colors 88) (background dark)) (:foreground ,mery-blue-1 :inverse-video nil :underline t))))
  `(link-visited ((default (:inherit link)) (((class color) (background dark)) (:foreground ,mery-plum-0))))
  `(magit-bisect-bad ((t (:foreground ,mery-red-3))))
  `(magit-bisect-good ((t (:foreground ,mery-cham-3))))

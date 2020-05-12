@@ -225,6 +225,21 @@
 (memento-mori-mode)
 
 
+
+(require 'xterm-color)
+
+(use-package shell-pop
+  :defer t
+  :custom
+  ;; This binding toggles popping up a shell, or moving cursour to the shell pop-up.
+  (shell-pop-universal-key "C-t")
+  ;; Percentage for shell-buffer window size.
+  (shell-pop-window-size 30)
+  ;; Position of the popped buffer: top, bottom, left, right, full.
+  (shell-pop-window-position "bottom")
+  ;; Please use an awesome shell.
+  (shell-pop-term-shell "/bin/zsh"))
+
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
 

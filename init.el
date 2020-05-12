@@ -110,11 +110,22 @@
       echo-keystrokes 0.1               ; Show keystrokes early
       mouse-1-click-follows-link nil) ; Don't follow links with left click
 
+;; Set customization data in a specific file, without littering
+;; my init files.
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
+;; Let me switch windows with shift-arrows instead of "C-x o" all the time
+(windmove-default-keybindings)
+
+
+
 (use-package abbrev
   :config
   (setq save-abbrevs 'silently)
   (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
-(setq-default abbrev-mode t))
+  (setq-default abbrev-mode t))
 
 (use-package super-save
   :ensure t
@@ -196,6 +207,9 @@
       (setq flyspell-issue-message-flag nil)          ; Avoid slowdown on full buffer check.
       (setq ispell-program-name "aspell"              ; use aspell instead of ispell
 	    ispell-extra-args '("--sug-mode=ultra"))
+      (setq ispell-dictionary "en_US") ;; set the default dictionary
+      (setq ispell-personal-dictionary "~/.emacs.d/.aspell.en.pws")
+      (setq ispell-silently-savep t)
       (global-set-key (kbd "<f8>") 'ispell-word)
       (global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word)
       (defun flyspell-check-next-highlighted-word ()
@@ -204,33 +218,33 @@
       (global-set-key (kbd "M-<f8>") #'flyspell-check-next-highlighted-word)
       (add-hook 'text-mode-hook #'flyspell-mode)
       (add-hook 'prog-mode-hook #'flyspell-prog-mode))
-;; else windows
-(use-package flyspell
-  :defer t
-  :bind
-  (("<f8>" . ispell-word)
-   ("C-<f8>" . flyspell-check-previous-highlighted-word)
-   ("M-<f8>" . flyspell-check-next-highlighted-word))
-  :init
-  (setenv "DICTIONARY" "en_US")
-  (setq ispell-program-name "c:\\ProgramData\\chocolatey\\bin\\hunspell.exe"
+  ;; else windows
+  (use-package flyspell
+    :defer t
+    :bind
+    (("<f8>" . ispell-word)
+     ("C-<f8>" . flyspell-check-previous-highlighted-word)
+     ("M-<f8>" . flyspell-check-next-highlighted-word))
+    :init
+    (setenv "DICTIONARY" "en_US")
+    (setq ispell-program-name "c:\\ProgramData\\chocolatey\\bin\\hunspell.exe"
 
-	;; Save dictionary without asking
-	ispell-silently-savep t
-	;; Do not issue warnings for all wrong words
-	flyspell-issue-message-flag nil)
+	  ;; Save dictionary without asking
+	  ispell-silently-savep t
+	  ;; Do not issue warnings for all wrong words
+	  flyspell-issue-message-flag nil)
 
-  (defun flyspell-check-next-highlighted-word ()
-    "Custom function to spell check next highlighted word"
-    (interactive)
-    (flyspell-goto-next-error)
-    (ispell-word)
-    )
+    (defun flyspell-check-next-highlighted-word ()
+      "Custom function to spell check next highlighted word"
+      (interactive)
+      (flyspell-goto-next-error)
+      (ispell-word)
+      )
 
-  :config
-  (ispell-change-dictionary "en_US" t)
+    :config
+    (ispell-change-dictionary "en_US" t)
 
-  )) ; use-package flyspell
+    )) ; use-package flyspell
 
 
 (use-package flycheck
@@ -238,11 +252,14 @@
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+
+;; learn keyboard shortcuts.
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode +1))
-
+  (which-key-mode +1)
+  (which-key-setup-side-window-bottom)
+  (setq which-key-idle-delay 0.1))
 
 
 ;; query-replace with feedback in modeline.
@@ -319,9 +336,14 @@
     :defer t)
 
 (use-package asn1-mode
-    :mode "\\.asn\\'"
-    :ensure t
-    :defer t)
+  :mode "\\.asn\\'"
+  :ensure t
+  :defer t)
+
+(use-package compilation-mode
+  ;; built-in
+  :defer t
+  :init (setq compilation-scroll-output 'next-error))
 
 (use-package modern-cpp-font-lock
   :ensure t
@@ -374,6 +396,18 @@
     (setq load-path (append (directory-files "/usr/local/share/emacs/site-lisp" t "^[^.]")
 			    load-path)))
 
+
+
+(use-package re-builder
+  :defer
+  :config (setq reb-re-syntax 'rx))
+
+(use-package smex
+  :ensure t
+  :bind (("M-x"   . smex)
+         ("M-X"   . smex-major-mode-commands)
+	 ("C-x m" . smex)))
+
 (require 'defaults)
 (require 'keyboard)
 
@@ -408,24 +442,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(TeX-show-compilation t)
- '(custom-safe-themes
-   (quote
-    ("d299e535e134c125e31a68574ea76f888505552c6d35add308eec950e366286b" default)))
- '(flyspell-auto-correct-binding [(control <)] nil nil "clash with iedit in prog-mode.")
- '(fringe-mode 0 nil (fringe))
- '(package-selected-packages
-   (quote
-    (aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'upcase-region 'disabled nil)
