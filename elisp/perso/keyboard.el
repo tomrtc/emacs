@@ -322,7 +322,14 @@ abort completely with `C-g'."
 (global-set-key (kbd "s-ç")	"^")
 (global-set-key (kbd "s-(")	"[")
 (global-set-key (kbd "s-)")	"]")
-(global-set-key (kbd "s-è")	"`")
+
+;; Strange problem with "`" where there is bad interactions with typo-mode and dead-key.
+;; Observable result is Emacs freeze until ctrl-g and a long string of ```....
+;; solution: insert interactively with λ an Unicode value of "`".
+;; https://unicodemap.org/range/1/Basic_Latin/
+;;(global-set-key (kbd "s-è")	"`")
+(global-set-key (kbd "s-è") (λ (insert "\u0060")))
+
 (global-set-key (kbd "s-é")	"~")
 (global-set-key (kbd "s-/")     "\\")
 

@@ -292,7 +292,10 @@
 
 (use-package typo
   :config
-  (add-hook 'text-mode-hook 'typo-mode)
+  (setq typo-language "French")
+  ;; typo-mode and typo-global-mode are usable, typo-global-mode provides a prefix map
+  ;; under C-c 8 which complements the default C-x 8 prefix map.
+  (add-hook 'text-mode-hook 'typo-global-mode)
   :ensure t)
 
 
@@ -311,6 +314,19 @@
     (add-hook 'cmake-mode-hook #'cmake-font-lock-activate)
     :ensure t)
 
+(use-package centaur-tabs
+  :demand
+  :config
+  (setq centaur-tabs-style "bar"
+	centaur-tabs-height 32
+	centaur-tabs-set-modified-marker t
+	centaur-tabs-show-navigation-buttons t
+	centaur-tabs-set-bar 'over
+	)
+  (centaur-tabs-mode t)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
 
 (use-package cmake-ide
     :defer t
@@ -354,7 +370,7 @@
 (use-package aggressive-indent
   :ensure t
   :config
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+  ;(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
   (add-hook 'c++-mode-hook        #'aggressive-indent-mode))
 
 (use-package pabbrev
@@ -369,7 +385,7 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :mode "\\.md\\'")
+  :mode "\\(\\.md\\|\\.md\\.html\\)\\'")
 
 ;; Use mic-paren in replacement of standard paren.el
 (use-package mic-paren
