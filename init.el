@@ -423,8 +423,6 @@
   :bind (("M-x"   . smex)
          ("M-X"   . smex-major-mode-commands)
 	 ("C-x m" . smex)))
-
-(require 'defaults)
 (require 'keyboard)
 
 ;; ;; Line numbers
