@@ -9,13 +9,11 @@
  '(centaur-tabs-forward-tab-text " ↷")
  '(centaur-tabs-modified-marker "")
  '(custom-safe-themes
-   (quote
-    ("d299e535e134c125e31a68574ea76f888505552c6d35add308eec950e366286b" default)))
+   '("96131f21b7f662f6072049fb4b91bf6f116ebf690a4d682324e7d54628720192" "d299e535e134c125e31a68574ea76f888505552c6d35add308eec950e366286b" default))
  '(flyspell-auto-correct-binding [(control <)] nil nil "clash with iedit in prog-mode.")
  '(fringe-mode 0 nil (fringe))
  '(package-selected-packages
-   (quote
-    (centaur-tabs smex shell-pop gnu-elpa-keyring-update aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes)))
+   '(centaur-tabs smex shell-pop gnu-elpa-keyring-update aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))
  '(shell-pop-term-shell "/bin/zsh" t)
  '(shell-pop-universal-key "C-t" t)
  '(shell-pop-window-position "bottom" t)
