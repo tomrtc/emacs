@@ -1,0 +1,13 @@
+# Comment: udev rule for GQ Electronics's GMC-320+
+# Geiger counter (Nuclear Radiation Detector)
+# Bus 001 Device 010: ID 1a86:7523 QinHeng Electronics HL-340 USB-Serial adapter
+##########################################################################################
+# Instructions : ls -al /dev/ttyUSB*									 #
+# crw-rw---- 1 root dialout 188, 0 May  6 07:11 /dev/ttyUSB0				 #
+# groups remy										 #
+# remy : remy cdrom floppy sudo audio dip video plugdev netdev bluetooth lpadmin scanner #
+# remy@phobos:~$ sudo usermod -a -G dialout remy					 #
+# This file should be put in '/etc/udev/rules.d' for udev customization.		 #
+##########################################################################################
+
+SUBSYSTEM=="tty", KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", MODE:="666", SYMLINK+="gmc-320+"

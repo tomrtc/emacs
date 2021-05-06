@@ -13,7 +13,7 @@
  '(flyspell-auto-correct-binding [(control <)] nil nil "clash with iedit in prog-mode.")
  '(fringe-mode 0 nil (fringe))
  '(package-selected-packages
-   '(centaur-tabs smex shell-pop gnu-elpa-keyring-update aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))
+   '(fira-code-mode all-the-icons-dired all-the-icons-gnus all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-ivy all-the-icons centaur-tabs smex shell-pop gnu-elpa-keyring-update aggressive-indent typo writegood-mode expand-region git-gutter git-gutter-+ eldoc-cmake cpputils-cmake cmake-mode visual-regexp iedit Iedit auctex cmake-ide which-key super-save req-package powerline popup pabbrev move-text modern-cpp-font-lock mic-paren markdown-mode magit graphviz-dot-mode git-gutter-fringe+ flycheck elf-mode crux cmake-font-lock auto-compile asn1-mode anzu aes))
  '(shell-pop-term-shell "/bin/zsh" t)
  '(shell-pop-universal-key "C-t" t)
  '(shell-pop-window-position "bottom" t)
